@@ -1,0 +1,204 @@
+---
+title: "BT4015 Project"
+author: "Group 1"
+date: "2022-10-05"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Setting up
+
+```{r pressure, echo=FALSE, warning=FALSE}
+library(GISTools)
+library(tmap)
+library(sp)
+library(sf)
+library(raster)
+library(rgdal)
+library(spatstat)
+```
+
+## Loading data
+### Polygons and lines
+```{r}
+planning_area_sf <- st_read("data/Planning_Area_Census2010.kml")
+
+class(planning_area_sf)
+```
+### Points
+Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves.
+Next, we have data on various public amenities like supermarkets, hawker centres, pharmacies as well as transportation infrastructure like MRT exits.
+```{r}
+access_points_sf <- st_read("data/PCN_Access_Points.kml")
+supermarkets_sf <- st_read("data/supermarkets.kml")
+hawkercentres_sf <- st_read("data/hawkercentre.kml")
+mrt_exits_sf <- st_read("data/lta-mrt-station-exit-kml.kml")
+pharmacy_sf <- st_read("data/registered_pharmacy.kml")
+
+class(access_points_sf)
+class(supermarkets_sf)
+class(hawkercentres_sf)
+class(mrt_exits_sf)
+class(pharmacy_sf)
+```
+### Raster
+Next, we read in raster data, which consists of only population density data.
+```{r}
+GDALinfo("data/popmap15adj.tif")
+```
+
+```{r}
+pop_density <- raster("data/popmap15adj.tif")
+pop_density
+```
+## Exploratory Data Analysis
+### Park Connectors
+First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+## Plot various amenities over the PCN access points
+Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN acces points.
+### Supermarkets
+We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets.
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(supermarkets_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "skyblue") + tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+### Hawker centres
+For hawker centres, the correlation is not as obvious.
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(hawkercentres_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+### MRT exits
+For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation.
+Unlike the MRT exits, we see that there are very few PCN access points in the Downtown Core area. This could be because of the lower priority assigned to cycling paths over mass rapid transit in a space-scarce area like the Downtown Core.
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(mrt_exits_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "orange") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+### Pharmacies
+For pharmacies, there doesn't seem to be a clear pattern.
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(pharmacy_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "purple") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+### Population density
+Interestingly, areas with the highest population density (Serangoon, Hougang and the areas surrounding Paya Lebar) seem to be relatively underserved by acces points as compared to Western regions like Bukit Batok which has a much lower population density.
+
+Standing out as well is the central part of Singapore, which has virtually zero population density. This region encompasses the MacRitchie Reservoir area and naturally is not home to any human population density. It might be useful to exclude this region in later analysis to prevent confounding.
+```{r}
+tmap_mode("view")
+
+# tm_shape(pop_density) + tm_raster() + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+
+tm_shape(pop_density) + tm_raster() + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+
+## Extracting planning areas to observe
+```{r}
+training_sf <- planning_area_sf[planning_area_sf$Name %in% c("YISHUN","JURONG EAST", "JURONG WEST", "TAMPINES", "PASIR RIS", "BEDOK"),]
+training_sf
+```
+## Calculating global density
+```{r}
+sg_area <- 728.6 #km2
+supermarkets_gd <- 742 / sg_area
+hawkercentres_gd <- 125 / sg_area
+mrt_exits_gd <- 474 / sg_area
+pharmacy_gd <- 269 / sg_area
+```
+## Quadrat density
+```{r}
+sg <- readOGR("./data", "Region_Census2010")
+sg
+sg_window <- as.owin(sg)
+```
+
+```{r}
+# convert crs of access_points_sf to crs of sg
+access_points_q <- st_transform(access_points_sf, crs(sg))
+# convert sf to ppp
+access_points_ppp <- as.ppp(st_coordinates(access_points_q), W=sg_window)
+```
+Try plotting quadrats of various sizes.
+```{r}
+Q6 <- quadratcount(access_points_ppp, nx=6, ny=6)
+plot(Q6)
+```
+
+```{r}
+Q10 <- quadratcount(access_points_ppp, nx=10, ny=10)
+Q15 <- quadratcount(access_points_ppp, nx=15, ny=15)
+Q20 <- quadratcount(access_points_ppp, nx=20, ny=20)
+Q40 <- quadratcount(access_points_ppp, nx=40, ny=40)
+plot(Q40)
+```
+From the quadrat density graph, we again see that most access points are concentrated in the North and West.
+```{r}
+# compute density within each quadrat
+Q_density <- intensity(Q40)
+
+# plot the density raster
+plot(intensity(Q10, image=TRUE), main=NULL, las=1)
+# plot access points
+plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
+```
+```{r}
+# plot the density raster
+plot(intensity(Q20, image=TRUE), main=NULL, las=1)
+# plot access points
+plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
+```
+
+```{r}
+# plot the density raster
+plot(intensity(Q40, image=TRUE), main=NULL, las=1)
+# plot access points
+plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
+```
+
+## Quadrat density based on population density
+```{r}
+pop_density_q <- projectRaster(pop_density, crs = crs(sg))
+
+brks <- c(0, 50, 100, 150, 200, 250, 300)
+zcut <- cut(pop_density_q, breaks = brks)
+pop_tess <- tess(image = zcut)
+
+Q2 <- quadratcount(access_points_ppp, tess = pop_tess)
+
+```
+
+```{r}
+plot(Q2, main="", las=1)
+```
+
+```{r}
+# compute density within each quadrat
+Q2_density <- intensity(Q2)
+Q2_density
+```
+
+```{r}
+cl <-  interp.colours(c("blue", "green", "yellow", "orange", "red", "darkred"), 6)
+# plot the density raster
+plot(intensity(Q2, image=TRUE), main=NULL, las=1, col=cl)
+# plot access points
+plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
+```
+
+
+
+
+
