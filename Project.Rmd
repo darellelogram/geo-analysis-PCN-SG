@@ -255,10 +255,56 @@ abline(v=ann_observed, col="blue")
 ```
 # Interpolating using distance
 ## MRT Exits
+First, we want to find the extent of sg
 ```{r}
-class(sg)
-class(sg_window)
+sg
 ```
+Create a raster using the extent of Singapore
+```{r}
+r <- raster(ncol=1000, nrow=1000, xmn= 2637.869, xmx=56396.44, ymn=15748.72, ymx=50256.33)
+```
+Convert MRT exits with the same CRS as sg to an sp object
+```{r}
+mrt_exits_q_sp <- as(mrt_exits_q, "Spatial")
+class(mrt_exits_q_sp)
+```
+Get x and y coordinates from MRT exits
+```{r}
+distances_mrt <- distanceFromPoints(object = r, xy=coordinates(mrt_exits_q_sp)[,1:2])
+plot(distances_mrt)
+```
+Mask the distances_mrt raster with the shape of Singapore
+```{r}
+distances_mrt <- mask(distances_mrt, sg)
+plot(distances_mrt)
+plot(access_points_ppp, add = TRUE)
+```
+Convert distances_mrt from raster to im
+```{r}
+class(distances_mrt)
+distances_mrt_im <- as.im(distances_mrt)
+class(distances_mrt_im)
+```
+Run monte carlo simulation for 1000 epochs
+```{r}
+n <- 1000 # number of simulations
+ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=distances_mrt_im)
+  ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_mrt)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+```{r}
+hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
+abline(v=ann_observed, col="blue")
+```
+
+
 
 
 
