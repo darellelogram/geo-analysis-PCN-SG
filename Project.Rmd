@@ -197,6 +197,72 @@ plot(intensity(Q2, image=TRUE), main=NULL, las=1, col=cl)
 # plot access points
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
+# Monte Carlo Q20 (Shu Ling)
+```{r}
+ann_observed <- mean(nndist(access_points_ppp, k=1))
+ann_observed
+```
+## Population density
+```{r}
+n <- 1000 # number of simulations
+ann_pop <- vector(length = n) # empty object to be used to store simulated ANN values
+pop_density_im <- as.im(pop_density_q) # convert population density to im object
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=pop_density_im)
+  ann_pop[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+```{r}
+hist(ann_pop, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_pop))
+abline(v=ann_observed, col="blue")
+```
+## MRT exits
+```{r}
+# convert crs of access_points_sf to crs of sg
+mrt_exits_q <- st_transform(mrt_exits_sf, crs(sg))
+# convert sf to ppp
+mrt_exits_ppp <- as.ppp(st_coordinates(mrt_exits_q), W=sg_window)
+
+MRT_Q20 <- quadratcount(mrt_exits_ppp, nx=20, ny=20)
+plot(MRT_Q20)
+```
+```{r}
+MRT_density20 <- intensity(MRT_Q20, image=TRUE)
+plot(MRT_density20)
+class(MRT_density20)
+```
+
+```{r}
+n <- 1000 # number of simulations
+ann_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=MRT_density20)
+  ann_mrt[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+
+```{r}
+hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_mrt))
+abline(v=ann_observed, col="blue")
+```
+# Interpolating using distance
+## MRT Exits
+```{r}
+class(sg)
+class(sg_window)
+```
+
+
+
+
 
 ## Markov Chain
 ```{r}
