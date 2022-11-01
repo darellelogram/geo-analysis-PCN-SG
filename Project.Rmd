@@ -198,6 +198,59 @@ plot(intensity(Q2, image=TRUE), main=NULL, las=1, col=cl)
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
+## Markov Chain
+```{r}
+library(rgdal)
+library(maptools)
+library(raster)
+n <- 500
+ann.r <- vector(length=n)
+
+for (i in 1:n) {
+  rand.p <- rpoint(n=length(access_points_q), f=Q20)
+  ann.r[i] <- mean(nndist(rand.p, k=1))
+}
+
+## try with nsim argument
+rpoint(n=length(access_points_q), f=Q20_tess_im, nsim=1)
+
+Window(rand.p) <- ma.km
+plot(rand.p, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+```{r}
+Q20_tess = as.tess(Q20)
+Q20_tess_im = as.im(Q20_tess)
+rpoint(n=length(access_points_q), f=Q20_tess_im, nsim=1)
+
+
+# https://www.rdocumentation.org/packages/spatstat/versions/1.64-1/topics/quadrat.test
+# convert mrt exits to ppp
+mrt_exits_im <- as.im(as.ppp(st_coordinates(st_transform(mrt_exits_sf, crs(sg))),W=sg_window))
+
+
+quadrat.test(X=access_points_ppp,
+             nx=20,
+             ny=20,
+             method="MonteCarlo",
+             conditional=TRUE, q
+             lambda=mrt_exits_im,
+             nsim=10)
+```
+
+
+Convert MRT stations to raster data
+```{r}
+library(tidyverse)
+library(sf)
+library(raster)
+mrt_exits_sp <- as_Spatial(mrt_exits_sf)
+
+# need to define the extent of Singapore's boundaries first
+# what resolution to use?
+
+mrt_exits_raster <- raster(crs=crs(mrt_exits_sp), vals=0, resolution=c(0.5, 05), ext=extent(c(-180, 180, -90, 90))) %>% 
+```
+
 
 
 
