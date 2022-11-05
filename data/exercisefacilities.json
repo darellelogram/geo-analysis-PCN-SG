@@ -1,0 +1,1587 @@
+{
+    "SrchResults": [
+        {
+            "FeatCount": 159,
+            "Theme_Name": "Gyms@SG",
+            "Category": "Health",
+            "Owner": "HEALTH PROMOTION BOARD",
+            "DateTime": {
+                "date": "2018-12-13 09:30:44.000000",
+                "timezone_type": 1,
+                "timezone": "+00:00"
+            }
+        },
+        {
+            "NAME": "The Pit",
+            "DESCRIPTION": "Operating Hours: 7.00am - 10.00am",
+            "ADDRESSBLOCKHOUSENUMBER": "50",
+            "ADDRESSPOSTALCODE": "78989",
+            "ADDRESSSTREETNAME": "Tras Street",
+            "LatLng": "1.27811388348071,103.844202079592",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Stable Mixed Martial Arts",
+            "DESCRIPTION": "Operating Hours: Monday, Wednesday, Friday: 12.00pm - 9.30pmTuesday, Thursday:12.00pm - 10.00pmSaturday:10.00am - 5.30pm",
+            "ADDRESSBUILDINGNAME": "House J and S",
+            "ADDRESSBLOCKHOUSENUMBER": "100",
+            "ADDRESSPOSTALCODE": "287992",
+            "ADDRESSSTREETNAME": "Turf Club Road",
+            "LatLng": "1.3342195983767,103.795898242377",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Bishan ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6353 9238",
+            "ADDRESSBLOCKHOUSENUMBER": "5",
+            "ADDRESSPOSTALCODE": "579783",
+            "ADDRESSSTREETNAME": "Bishan St. 4",
+            "LatLng": "1.35528262760188,103.850922071159",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Yoga Place",
+            "ADDRESSBUILDINGNAME": "King George's Building",
+            "ADDRESSBLOCKHOUSENUMBER": "328",
+            "ADDRESSPOSTALCODE": "208568",
+            "ADDRESSSTREETNAME": "King George's Ave",
+            "LatLng": "1.30992191079359,103.862090963732",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Sky Fitness - Serangoon Gardens",
+            "ADDRESSBLOCKHOUSENUMBER": "45",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "559022",
+            "ADDRESSSTREETNAME": "Bughley Drive Blk B",
+            "ADDRESSUNITNUMBER": "10",
+            "LatLng": "1.36000966368369,103.85957105374",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Slender Shapes - Serangoon Gardens Way",
+            "DESCRIPTION": "Operating Hours: Monday - Friday8.00am - 2.00pm4.00pm - 9.00pmSaturday9.00am - 4.00pmSunday & PH: Closed",
+            "ADDRESSBLOCKHOUSENUMBER": "85A",
+            "ADDRESSPOSTALCODE": "555981",
+            "ADDRESSSTREETNAME": "Serangoon Gardens Way",
+            "LatLng": "1.36389982541919,103.864884313373",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Woodlands ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6362 9101",
+            "ADDRESSBUILDINGNAME": "Woodlands Stadium",
+            "ADDRESSBLOCKHOUSENUMBER": "495",
+            "ADDRESSPOSTALCODE": "738597",
+            "ADDRESSSTREETNAME": "WoodlandsCentre",
+            "LatLng": "1.43489537703518,103.780306573729",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yio Chu Kang ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6483 9370",
+            "ADDRESSBLOCKHOUSENUMBER": "200",
+            "ADDRESSPOSTALCODE": "569770",
+            "ADDRESSSTREETNAME": "Ang Mo Kio Ave 9",
+            "LatLng": "1.38227243116352,103.845767858372",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yishun ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6851 8604",
+            "ADDRESSBLOCKHOUSENUMBER": "101",
+            "ADDRESSPOSTALCODE": "769130",
+            "ADDRESSSTREETNAME": "YishunAve 1",
+            "LatLng": "1.41201836574556,103.83117739651",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Zattva Yoga Studio",
+            "ADDRESSBUILDINGNAME": "Orchard Plaza",
+            "ADDRESSBLOCKHOUSENUMBER": "150",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "238841",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "9",
+            "LatLng": "1.30125729612721,103.841150152248",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - One Raffles Quay",
+            "DESCRIPTION": "Facilities: Group Exercise studios  Kinesis studio, free-weight and strength equipment, cardio equipmentOperating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 8.00am ? 5.00pm Sunday and Public Holidays : 10.00am ? 5.00pm Tel: 6327 5550",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "8",
+            "ADDRESSPOSTALCODE": "48583",
+            "ADDRESSSTREETNAME": "Raffles Quay",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28089478900143,103.851677105821",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Paragon",
+            "DESCRIPTION": "Facilities: Cardio equipment, weight machines, free weights, Group Exercise studio , cycling studio, Mind & Body studioOperating Hours: Monday ? Saturday : 6.30am ? 10.30pm Sunday and Public Holidays : 8.00am ? 10.00pm Tel: 6737 7889",
+            "ADDRESSBLOCKHOUSENUMBER": "41282",
+            "ADDRESSFLOORNUMBER": "8",
+            "ADDRESSPOSTALCODE": "238859",
+            "ADDRESSUNITNUMBER": "13",
+            "LatLng": "1.30372322367268,103.835240311923",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - Great World City",
+            "DESCRIPTION": "Operating Hours: Mon ? Fri: 6am ? 10pm Sat ? Sun: 7am ? 9pm Public Holiday: 8am ? 8pm Tel: 6235 9622",
+            "ADDRESSBUILDINGNAME": "Great World City Mall",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "237994",
+            "ADDRESSSTREETNAME": "Kim Seng Promenade",
+            "ADDRESSUNITNUMBER": "14",
+            "LatLng": "1.29380236091495,103.831757911005",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "California Fitness - Bugis",
+            "DESCRIPTION": "Facilities: - Group X Studio- Indoor Cycling Studio- Cardio Machines- Resistance Machines- Free Weights- Xpress Zone- Kick Fit Area- Steam & SaunaOperating Hours: Monday to Saturday: 6:00 am - 12:00 midnightSunday and Public Holidays*: 8:00 am - 10:00 pm.Tel: 6337 257",
+            "ADDRESSBLOCKHOUSENUMBER": "230",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "188024",
+            "ADDRESSSTREETNAME": "Victoria Street",
+            "LatLng": "1.30014248326867,103.855786976518",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - AMK Hub",
+            "DESCRIPTION": "Facilities: Mind and Body studio, Group Exercise studio, cardio equipment (including treadmills, bikes, steppers and the revolutionary Technogym CardioWave?), weight machines and free weights.Operating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday, Sunday and Public Holi",
+            "ADDRESSBLOCKHOUSENUMBER": "53",
+            "ADDRESSFLOORNUMBER": "B1",
+            "ADDRESSPOSTALCODE": "569933",
+            "ADDRESSSTREETNAME": "Ang Mo Kio Ave 3",
+            "ADDRESSUNITNUMBER": "36",
+            "LatLng": "1.36924890739398,103.848399235571",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "California Fitness - Velocity@Novena Square",
+            "DESCRIPTION": "Facilities: - Group X Studio- Indoor Cycling Studio- Cardio Machines- Resistance Machines- Free Weights- Xpress Zone- Kick Fit Area- Steam & Sauna- Internet KiosksOperating Hours: Monday to Friday: 6:00 am - 12:00 midnightSaturday: 6:00 am to 10:00 pmSunday and Publ",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSPOSTALCODE": "307683",
+            "ADDRESSSTREETNAME": "Velocity @ Novena",
+            "LatLng": "1.32021101601674,103.843656771807",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Alexandra (Mapletree Business City)",
+            "DESCRIPTION": "Facilities: 44m heated pool, Group Exercise studio, outdoor TRX? Suspension Training? area, boxing area, cardiovascular equipment (treadmills, rowers etc), a free weights area, resistance machines and a functional training area.Operating Hours: Monday ? Friday : 6.30am ? 10.00p",
+            "ADDRESSBLOCKHOUSENUMBER": "20",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "117439",
+            "ADDRESSSTREETNAME": "Pasir Panjang Road",
+            "ADDRESSUNITNUMBER": "29",
+            "LatLng": "1.274827493389,103.799064826968",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Evolve MMA - POMO Mall",
+            "DESCRIPTION": "Operating Hours: Monday-Friday: 6:30am to 10:30pmSaturday-Sunday: 9:00am to 7:00pmTel: 63370082/ 63370037",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "188306",
+            "ADDRESSSTREETNAME": "Selegie Road",
+            "ADDRESSUNITNUMBER": "11",
+            "LatLng": "1.3001084594134,103.849264282609",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Captial Tower",
+            "DESCRIPTION": "Facilities: Heated swimming pool, group exercise studio, cycling studio, cardiovascular and resistance strength training equipmentOperating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 7.00am ? 7.00pmSunday and Public Holidays : ClosedTel: 6536 5595",
+            "ADDRESSFLOORNUMBER": "9",
+            "ADDRESSPOSTALCODE": "68912",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.27771181456553,103.847522674168",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yoga Connections",
+            "ADDRESSBLOCKHOUSENUMBER": "498",
+            "ADDRESSPOSTALCODE": "419903",
+            "ADDRESSSTREETNAME": "A Changi Road",
+            "LatLng": "1.31923098288927,103.914005195669",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "California Fitness - Raffles",
+            "DESCRIPTION": "Facilities: - Energy Studio - Mind Body Studio - Indoor Cycling Studio - Cardio Machines - Resistance Machines - Free Weights - Xpress Zone - Kick Fit Area - Steam & SaunaOperating Hours: Monday to Friday: 6:00 am - 12:00 midnightSaturday: 6:00 am to 10:00 pmSunday",
+            "ADDRESSBLOCKHOUSENUMBER": "14",
+            "ADDRESSPOSTALCODE": "48619",
+            "ADDRESSSTREETNAME": "Raffles Place",
+            "LatLng": "1.28348363887373,103.850574044319",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - Suntec City",
+            "DESCRIPTION": "Operating Hours: Mon ? Thurs: 6am ? 11pm Fri: 6am ? 10pm Sat: 6am ? 9pm Sun / Public Holiday: 8am ? 8pm Tel: 6820 9000",
+            "ADDRESSBUILDINGNAME": "Suntec City Mall",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "38983",
+            "ADDRESSSTREETNAME": "Temasek Boulevard",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.29487905112126,103.857675501543",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Union Yoga Ayurveda (Kembangan Branch)",
+            "DESCRIPTION": "Open Daily 9am - 10pm",
+            "ADDRESSBUILDINGNAME": "Kingston Terrace",
+            "ADDRESSBLOCKHOUSENUMBER": "14D",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "418935",
+            "ADDRESSSTREETNAME": "Kingston Terrace",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.31988383852338,103.912862460833",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Union Yoga Ayurveda (Beauty World Branch)",
+            "DESCRIPTION": "Open Daily 9am - 10pm",
+            "ADDRESSBUILDINGNAME": "Mandarin Park Shop Houses",
+            "ADDRESSPOSTALCODE": "599625",
+            "ADDRESSSTREETNAME": "51 Chun Tin Road",
+            "LatLng": "1.34174220136525,103.772716769692",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Rhythmic Yoga Works",
+            "ADDRESSBUILDINGNAME": "Far East Shopping Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "575",
+            "ADDRESSPOSTALCODE": "188091",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.29800183598617,103.856934794867",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Neue",
+            "DESCRIPTION": "Open Daily 1000-2200 (close on public holiday)",
+            "ADDRESSBUILDINGNAME": "Kallang wave mall",
+            "ADDRESSPOSTALCODE": "397628",
+            "ADDRESSSTREETNAME": "1 Stadium place #02-07",
+            "LatLng": "1.30384327849927,103.872750707738",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Om Shiva Yoga - Chip Bee",
+            "ADDRESSBUILDINGNAME": "Chip Bee Gardens",
+            "ADDRESSBLOCKHOUSENUMBER": "45",
+            "ADDRESSPOSTALCODE": "278000",
+            "ADDRESSSTREETNAME": "Jalan Rumia",
+            "LatLng": "1.31099316329402,103.797538795862",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Om Shiva Yoga - Horse City",
+            "ADDRESSBUILDINGNAME": "Horse City",
+            "ADDRESSBLOCKHOUSENUMBER": "100",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "287992",
+            "ADDRESSSTREETNAME": "Turf Club Road",
+            "ADDRESSUNITNUMBER": "02B",
+            "LatLng": "1.3342195983767,103.795898242377",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "OMG Yoga",
+            "DESCRIPTION": "Operating Hours: Monday & Friday: 10.00am - 6.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "134",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "600134",
+            "ADDRESSSTREETNAME": "Jurong Gateway Road",
+            "ADDRESSUNITNUMBER": "309",
+            "LatLng": "1.33386246359672,103.73870827223",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Philip Wain",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.00 am - 10.00 pmSaturday: 7.00 am - 8.00 pmSunday: 9.00 am - 6.00 pmPublic holidays: 10.00 am - 7.00 pm",
+            "ADDRESSBLOCKHOUSENUMBER": "101",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "307591",
+            "ADDRESSSTREETNAME": "Thomson Road",
+            "ADDRESSUNITNUMBER": "10",
+            "LatLng": "1.31733464253519,103.843463185078",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pure Fitness - Knightsbridge (Asia Square)",
+            "DESCRIPTION": "Facilities: Kettlebells, bulgarian bags, medicine balls, 4 x 35m indoor running track, mixed martial arts zone, VO2 testing area,  group fitness studios, swimming pool, cardio equipment, resistance equipment, free weightsOperating Hours: Monday - Saturday6am - 12 midnightSun",
+            "ADDRESSBUILDINGNAME": "Asia Square Tower 1",
+            "ADDRESSBLOCKHOUSENUMBER": "8",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "238857",
+            "ADDRESSSTREETNAME": "Marina View",
+            "LatLng": "1.30310526758961,103.836202014579",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Krav Maga Singapore",
+            "ADDRESSBLOCKHOUSENUMBER": "39",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "59295",
+            "ADDRESSSTREETNAME": "North Canal Road",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.28712786568231,103.84702569567",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Tampines",
+            "DESCRIPTION": "Facilities: Cardio equipment (steppers, bikes, treadmills, rowers etc), Technogym resistance machines, free-weights, Group Exercise studio, Mind and Body studio and cycling studio Operating Hours: Mon to Fri: 6.00am -10.00pmSat : 7.00am - 7.00pmSun & PH : 8.00am ? 6.00pm T",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "529508",
+            "ADDRESSSTREETNAME": "Tampines Central",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.35308485692255,103.943586936734",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "iPilates",
+            "ADDRESSBLOCKHOUSENUMBER": "8",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "229572",
+            "ADDRESSSTREETNAME": "Claymore Hill",
+            "ADDRESSUNITNUMBER": "6",
+            "LatLng": "1.30763492632515,103.83203806691",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "California Fitness - Orchard- Ngee Ann City",
+            "DESCRIPTION": "Facilities: - Energy Studio- Mind Body Studio- Indoor Cycling Studio- Cardio Machines- Resistance Machines- Free Weights- Xpress Zone- Kick Fit Area- Internet KiosksOperating Hours: Monday to Saturday: 6:00 am - 12:00 midnightSunday and Public Holidays*: 8:00 am to 10",
+            "ADDRESSBLOCKHOUSENUMBER": "8",
+            "ADDRESSPOSTALCODE": "238873",
+            "ADDRESSSTREETNAME": "Ngee Ann City",
+            "LatLng": "1.30242417909429,103.83467613466",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - China Square Central",
+            "DESCRIPTION": "Operating Hours: Mon ? Thurs: 6am ? 11pm Fri: 6am ? 10pm Sat: 6am ? 9pm Sun / Public Holiday: 8am ? 8pmTel: 6438 3833",
+            "ADDRESSBLOCKHOUSENUMBER": "18",
+            "ADDRESSFLOORNUMBER": "B1",
+            "ADDRESSPOSTALCODE": "48423",
+            "ADDRESSSTREETNAME": "Cross Street",
+            "ADDRESSUNITNUMBER": "26",
+            "LatLng": "1.28351522358922,103.846878913529",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Sky Pilates",
+            "ADDRESSBLOCKHOUSENUMBER": "541",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "238881",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "3",
+            "LatLng": "1.30508723301058,103.830722583997",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Slender Shapes - Eunos",
+            "DESCRIPTION": "Operating Hours: Monday - Friday:8.00am - 2.00pm3.00pm - 9.00pmSaturday:9.00am - 4.00pmSunday & PH: Closed",
+            "ADDRESSBUILDINGNAME": "Eunos Techpark",
+            "ADDRESSBLOCKHOUSENUMBER": "60",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "415979",
+            "ADDRESSSTREETNAME": "Kaki Bukit Place",
+            "ADDRESSUNITNUMBER": "6",
+            "LatLng": "1.33407188854164,103.904054104624",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Core Fitness Physiotherapy & Pilates Centre  - Forum The Shopping Mall",
+            "DESCRIPTION": "Operating Hours: Mon ? Thu: 9 am to 9 pmFri: 9 am to 7 pm Sat: 9 am to 5 pmSundays and Public Holidays: by appointments only",
+            "ADDRESSBLOCKHOUSENUMBER": "583",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "238884",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "4",
+            "LatLng": "1.30619579913532,103.828509016301",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "CrossFit Fire City",
+            "ADDRESSBLOCKHOUSENUMBER": "11",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "338988",
+            "ADDRESSSTREETNAME": "Kampong Bugis",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.30851817439858,103.866029977781",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "CrossFit Singapore",
+            "ADDRESSBLOCKHOUSENUMBER": "81",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "408830",
+            "ADDRESSSTREETNAME": "Ubi Avenue 4",
+            "ADDRESSUNITNUMBER": "13",
+            "LatLng": "1.33354943541229,103.89176817408",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Curves - Marine Parade",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "13",
+            "ADDRESSPOSTALCODE": "160140",
+            "ADDRESSSTREETNAME": "Marine Parade Central",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.2781561439556,103.829524333744",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Elements Pilates",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "247918",
+            "ADDRESSSTREETNAME": "Tanglin Road",
+            "ADDRESSUNITNUMBER": "8",
+            "LatLng": "1.30527220041532,103.825078878265",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Evolve MMA - Far East Square",
+            "DESCRIPTION": "Operating Hours: Monday-Friday: 6:30am to 10:30pmSaturday-Sunday: 9:00am to 7:00pmTel: 65364525/ 65364830",
+            "ADDRESSBLOCKHOUSENUMBER": "26",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "49568",
+            "ADDRESSSTREETNAME": "China Street",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28305772642104,103.84782090171",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Millenia Walk",
+            "DESCRIPTION": "Facilities: Multi-purpose studio, cycling studio, free weights, resistance machines, cardio machines  Operating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 9.00am ? 9.00pmSunday and Public Holidays : 10.00am ? 8.00pm Tel: 6339 7555",
+            "ADDRESSBLOCKHOUSENUMBER": "9",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "39596",
+            "ADDRESSSTREETNAME": "Raffles Boulevard",
+            "ADDRESSUNITNUMBER": "38",
+            "LatLng": "1.29296504773614,103.859343974188",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - One George Street",
+            "DESCRIPTION": "Facilities: Heated swimming pool, cardio equipment, strength equipment, free weights area, stretch area, Group Exercise studioOperating Hours: Monday ? Friday : 6.00am ? 11.00pm Saturday : 7.00am ? 7.00pmSunday and Public Holidays : 10.00am ? 6.00pm Tel: 6538 7666",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "49145",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28554561731843,103.847771918338",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Heartland Mall",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 9.00 AM - 10.00 PMSaturday: 9:00 AM - 7:30 PMSunday & Public Holiday: 9.00 AM - 7:30 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "205",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "530205",
+            "ADDRESSSTREETNAME": "Hougang Street 21",
+            "ADDRESSUNITNUMBER": "11",
+            "LatLng": "1.35949663830553,103.885079928732",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Plaza Singapura",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 9.00 AM - 10.00 PMSaturday: 9.00 AM - 10.00 PMSunday & Public Holiday: 9.00 AM - 10.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "68",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "238839",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "9",
+            "LatLng": "1.30074756196423,103.845047628503",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Thomson Plaza",
+            "DESCRIPTION": "Operating Hours: Monday: 9.00 AM - 10.00 PMSaturday: 9.00 AM - 9.00 PMSunday & Public Holiday: 9.00 AM - 7.30 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "301",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "574408",
+            "ADDRESSSTREETNAME": "Upper Thomson Road",
+            "ADDRESSUNITNUMBER": "49",
+            "LatLng": "1.35466901882051,103.830919788426",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Bikram Yoga",
+            "ADDRESSBLOCKHOUSENUMBER": "252",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "179103",
+            "ADDRESSSTREETNAME": "North Bridge Road",
+            "ADDRESSUNITNUMBER": "14",
+            "LatLng": "1.2938935875293,103.853119912535",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Bikram Yoga Harbourfront",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "99253",
+            "ADDRESSUNITNUMBER": "13",
+            "LatLng": "1.26206336450486,103.818625588159",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Brazilian Jiu Jitzu Singapore",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "228149",
+            "ADDRESSSTREETNAME": "Sophia Road",
+            "ADDRESSUNITNUMBER": "19",
+            "LatLng": "1.30107054671992,103.84917626624",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Bodyworks - Holland",
+            "ADDRESSBUILDINGNAME": "Buona Vista Community Club",
+            "ADDRESSBLOCKHOUSENUMBER": "36",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "270036",
+            "ADDRESSSTREETNAME": "Holland Drive",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.30918211194726,103.79254748678",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Tirisula Yoga",
+            "DESCRIPTION": "Tel: 90098889/ 85715701",
+            "ADDRESSBLOCKHOUSENUMBER": "80",
+            "ADDRESSPOSTALCODE": "199777",
+            "ADDRESSSTREETNAME": "B Arab Street",
+            "LatLng": "1.3014790011719,103.859188259636",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Total Yoga - Clarke Quay",
+            "ADDRESSBUILDINGNAME": "Hui Seng Building",
+            "ADDRESSBLOCKHOUSENUMBER": "38",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "59917",
+            "ADDRESSSTREETNAME": "Carpenter Street",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28790271682791,103.84777293526",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Marina Bay Financial Centre",
+            "DESCRIPTION": "Facilities: Multi-purpose studio, cycling studio, free weights, resistance machines, cardio machines  Operating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 8.00am ? 5.00pmSunday and Public Holidays : ClosedTel: 6536 2373",
+            "ADDRESSBLOCKHOUSENUMBER": "12",
+            "ADDRESSFLOORNUMBER": "16",
+            "ADDRESSPOSTALCODE": "18982",
+            "ADDRESSSTREETNAME": "Marina Boulevard",
+            "ADDRESSUNITNUMBER": "3",
+            "LatLng": "1.27910567910157,103.854297425627",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Midview Body & Mind",
+            "ADDRESSBUILDINGNAME": "Midview City",
+            "ADDRESSBLOCKHOUSENUMBER": "28",
+            "ADDRESSFLOORNUMBER": "8",
+            "ADDRESSPOSTALCODE": "573972",
+            "ADDRESSSTREETNAME": "Sin Ming Lane",
+            "ADDRESSUNITNUMBER": "138",
+            "LatLng": "1.35821656561939,103.833930717119",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Inc - The Moving Body Group - Amoy Street",
+            "ADDRESSBLOCKHOUSENUMBER": "82",
+            "ADDRESSPOSTALCODE": "69901",
+            "ADDRESSSTREETNAME": "Amoy Street Level 1",
+            "LatLng": "1.28078047914706,103.846733698071",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Jungle",
+            "DESCRIPTION": "Operating Hours 8am to 9pm",
+            "ADDRESSPOSTALCODE": "49824",
+            "ADDRESSSTREETNAME": "35B Boat Quay",
+            "ADDRESSUNITNUMBER": "35B",
+            "LatLng": "1.28625502575823,103.849673970079",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "TMP Fitness - Revenue House",
+            "DESCRIPTION": "Operating Hours 7am to 10pm",
+            "ADDRESSBUILDINGNAME": "Revenue House",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "307987",
+            "ADDRESSSTREETNAME": "55 Newton Road",
+            "ADDRESSUNITNUMBER": "2",
+            "LatLng": "1.31948959451122,103.841975314872",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Bugis Junction",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 9.00 AM - 10.00 PMSaturday: 9.00 AM - 9.00 PMSunday and Public Holiday: 9.00 AM - 9.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "200",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "188021",
+            "ADDRESSSTREETNAME": "Victoria Street Bugis Junction",
+            "LatLng": "1.29906799078836,103.855327954497",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Bukit Gombak ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6896 2197",
+            "ADDRESSBLOCKHOUSENUMBER": "810",
+            "ADDRESSPOSTALCODE": "659081",
+            "ADDRESSSTREETNAME": "Bukit Batok West Ave 5",
+            "LatLng": "1.35790704666032,103.7530237503",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Choa Chu Kang ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6767 1739",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSPOSTALCODE": "689236",
+            "ADDRESSSTREETNAME": "Choa Chu Kang St 53",
+            "LatLng": "1.39066617204386,103.747920712445",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Clementi ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 68729180/1",
+            "ADDRESSBLOCKHOUSENUMBER": "518",
+            "ADDRESSPOSTALCODE": "129907",
+            "ADDRESSSTREETNAME": "Clementi Ave 3",
+            "LatLng": "1.31101498462879,103.764861415667",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Hougang ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6315 8674",
+            "ADDRESSBLOCKHOUSENUMBER": "93",
+            "ADDRESSPOSTALCODE": "538832",
+            "ADDRESSSTREETNAME": "Hougang Ave 4",
+            "LatLng": "1.37057348785749,103.88807173322",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Jurong East ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium Equipment and Exercise EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6896 3569",
+            "ADDRESSBLOCKHOUSENUMBER": "21",
+            "ADDRESSPOSTALCODE": "609517",
+            "ADDRESSSTREETNAME": "Jurong East St. 31",
+            "LatLng": "1.34621561227092,103.728835249034",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Jurong West ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6515 5256",
+            "ADDRESSBLOCKHOUSENUMBER": "20",
+            "ADDRESSPOSTALCODE": "648965",
+            "ADDRESSSTREETNAME": "Jurong West St 93",
+            "LatLng": "1.33841806492775,103.69376890219",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pasir Ris ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)",
+            "ADDRESSBLOCKHOUSENUMBER": "120",
+            "ADDRESSPOSTALCODE": "519640",
+            "ADDRESSSTREETNAME": "Pasir Ris Central",
+            "LatLng": "1.37444845586245,103.95182250042",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Physical ABuse",
+            "DESCRIPTION": "Operating Hours: Monday ? Friday : 7.00am ? 10.00pm Saturday, Sunday and Public Holidays : 8.00am ? 8.00pm Tel: 6536 5580",
+            "ADDRESSBLOCKHOUSENUMBER": "2",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "59763",
+            "ADDRESSSTREETNAME": "Havelock Road 2HR",
+            "ADDRESSUNITNUMBER": "28",
+            "LatLng": "1.28672853496612,103.844901339347",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Central Pilates",
+            "ADDRESSBLOCKHOUSENUMBER": "10",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "227977",
+            "ADDRESSSTREETNAME": "Winstedt Road",
+            "ADDRESSUNITNUMBER": "9",
+            "LatLng": "1.30992450385743,103.841910545157",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Gold's Gym - IBP Jurong East",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.30am - 9.00pmSaturday: 7.30am - 3.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "2",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "609930",
+            "ADDRESSSTREETNAME": "International Business Park",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.3296904778472,103.746960566285",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pure Fitness - Knightsbridge",
+            "DESCRIPTION": "Facilities: Cycling and group fitness studios, cardio machines, resistance machines, free weightsOperating Hours: Monday - Saturday6am - 12 midnightSunday & Public holidays8am - 10pmTel: 6100 3813",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSPOSTALCODE": "18960",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "LatLng": "1.27900797406852,103.851103466005",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Updog Studio",
+            "DESCRIPTION": "Operating Hours: Monday - Thursday: 8:30am - 9:30pmFriday: 8:30am - 8:00pmSaturday - Sunday: 7:30am - 5:30pm",
+            "ADDRESSBUILDINGNAME": "Big Splash",
+            "ADDRESSBLOCKHOUSENUMBER": "902 B",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "449874",
+            "ADDRESSSTREETNAME": "East Coast Parkway",
+            "ADDRESSUNITNUMBER": "05A",
+            "LatLng": "1.29747626957084,103.899774980097",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Breathe Pilates - Novena",
+            "ADDRESSBLOCKHOUSENUMBER": "10",
+            "ADDRESSFLOORNUMBER": "9",
+            "ADDRESSPOSTALCODE": "307506",
+            "ADDRESSSTREETNAME": "Sinaran Drive",
+            "ADDRESSUNITNUMBER": "33",
+            "LatLng": "1.32042967863542,103.843892126913",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Delta ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6471 9030",
+            "ADDRESSBLOCKHOUSENUMBER": "900",
+            "ADDRESSPOSTALCODE": "158790",
+            "ADDRESSSTREETNAME": "Tiong Bahru Road",
+            "LatLng": "1.28907794925009,103.819773109932",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yogapoint Singapore",
+            "DESCRIPTION": "Operating hours Mon - Fri 0615 - 2200 Weekend 0800 - 2100",
+            "ADDRESSPOSTALCODE": "88998",
+            "ADDRESSSTREETNAME": "3rd Floor 31B Kreta Ayer Road",
+            "LatLng": "1.28065569131695,103.842160502746",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Woodlands Civic Centre",
+            "DESCRIPTION": "Operating Hours: Monday-Friday: 9.00 AM - 10.00 PMSaturday: 9.00 AM - 7.30 PMSunday & Public Holiday: 9.00 AM - 6.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "900",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "730900",
+            "ADDRESSSTREETNAME": "South Woodlands Drive",
+            "ADDRESSUNITNUMBER": "11",
+            "LatLng": "1.43507789397688,103.78661961568",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Ananda Marga Yoga Society of Singapore - MacPherson",
+            "ADDRESSBLOCKHOUSENUMBER": "439",
+            "ADDRESSPOSTALCODE": "368150",
+            "ADDRESSSTREETNAME": "A MacPherson Road",
+            "LatLng": "1.33201025602617,103.881024688613",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Jal Yoga",
+            "DESCRIPTION": "Operating Hours 7am to 9pm including Public Holiday",
+            "ADDRESSBLOCKHOUSENUMBER": "991",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "119964",
+            "ADDRESSSTREETNAME": "Alexandra Road",
+            "ADDRESSUNITNUMBER": "03A",
+            "LatLng": "1.27441958484294,103.802911911187",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "One Wellness Fitness Club",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.00 am - 10.00 pmSaturday: 10.00 am - 7.00 pmSunday: 10.00 am - 4.00 pmTel: 6221 9663",
+            "ADDRESSBLOCKHOUSENUMBER": "164A",
+            "ADDRESSPOSTALCODE": "188440",
+            "ADDRESSSTREETNAME": "New Bugis St",
+            "LatLng": "1.30091799345463,103.855247873282",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Gym Nation",
+            "ADDRESSBUILDINGNAME": "Senja Cashew CC",
+            "ADDRESSBLOCKHOUSENUMBER": "101",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "679910",
+            "ADDRESSSTREETNAME": "Bukit Panjang Road",
+            "ADDRESSUNITNUMBER": "2",
+            "LatLng": "1.38158679370649,103.764659583272",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Yoga Shala",
+            "ADDRESSBLOCKHOUSENUMBER": "11",
+            "ADDRESSPOSTALCODE": "88266",
+            "ADDRESSSTREETNAME": "Yan Kit Road",
+            "LatLng": "1.27652575407135,103.841918377905",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Total Yoga - Orchard Road",
+            "ADDRESSBLOCKHOUSENUMBER": "8",
+            "ADDRESSPOSTALCODE": "229572",
+            "ADDRESSSTREETNAME": "Claymore Hill",
+            "ADDRESSUNITNUMBER": "4",
+            "LatLng": "1.30763492632515,103.83203806691",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - Chevron House",
+            "DESCRIPTION": "Operating Hours: Mon ? Thurs: 6am ? 11pm Fri: 6am ? 10pm Sat: 6am ? 8pm Sun / Public Holiday: 8am ? 6pmTel: 6438 3000",
+            "ADDRESSBLOCKHOUSENUMBER": "30",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "48622",
+            "ADDRESSSTREETNAME": "Raffles Place",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.28423792027966,103.851927274914",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - NTUC Income Tampines Junction",
+            "DESCRIPTION": "Operating Hours: Mon ? Thurs: 6am ? 11pmFri: 6am ? 10pmSat: 6am ? 9pmSun / Public Holiday: 8am ? 8pmTel: 6788 9555",
+            "ADDRESSBUILDINGNAME": "NTUC Income Tampines Junction",
+            "ADDRESSBLOCKHOUSENUMBER": "300",
+            "ADDRESSFLOORNUMBER": "8",
+            "ADDRESSPOSTALCODE": "529652",
+            "ADDRESSSTREETNAME": "Tampines Avenue 5",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.35429510351818,103.93963580414",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - Parkway Parade",
+            "DESCRIPTION": "Operating Hours: Mon ? Fri: 7am ? 10pm Sat / Sun / Public Holiday: 8am ? 9.30pm Tel: 6348 2900",
+            "ADDRESSBLOCKHOUSENUMBER": "80",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "449269",
+            "ADDRESSSTREETNAME": "Marine Parade Road",
+            "ADDRESSUNITNUMBER": "15",
+            "LatLng": "1.30119131472187,103.905113590458",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Fitness - VivoCity",
+            "DESCRIPTION": "Operating Hours: Mon ? Fri: 7am ? 10.30pm Sat - Sun: 7am ? 9pm Public Holiday: 8am ? 8pm Tel: 6278 3000",
+            "ADDRESSBUILDINGNAME": "VivoCity",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "98585",
+            "ADDRESSSTREETNAME": "Harbourfront Walk",
+            "ADDRESSUNITNUMBER": "10",
+            "LatLng": "1.26439468181096,103.821808629396",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Yoga - Ocean Financial Centre",
+            "DESCRIPTION": "Operating Hours: 7am to 11pm daily",
+            "ADDRESSBUILDINGNAME": "Ocean Financial Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "10",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "49315",
+            "ADDRESSSTREETNAME": "Collyer Quay",
+            "LatLng": "1.28298072623658,103.851838945741",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "True Yoga - Pacific Plaza",
+            "DESCRIPTION": "Operating Hours: 7am to 11pm daily",
+            "ADDRESSBUILDINGNAME": "Pacific Plaza",
+            "ADDRESSBLOCKHOUSENUMBER": "9",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "228210",
+            "ADDRESSSTREETNAME": "Scotts Road",
+            "LatLng": "1.30653722380828,103.832126408154",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Viva Fit Singapore - Beach Road",
+            "ADDRESSBUILDINGNAME": "Bulkhaul House",
+            "ADDRESSBLOCKHOUSENUMBER": "67",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "189688",
+            "ADDRESSSTREETNAME": "Beach Rd",
+            "ADDRESSUNITNUMBER": "2",
+            "LatLng": "1.29695905771991,103.856304899664",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Viva Fit Singapore - Raffles Place",
+            "ADDRESSBLOCKHOUSENUMBER": "20",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "48979",
+            "ADDRESSSTREETNAME": "Malacca Street",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.28394229110606,103.850711622748",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Viva Fit Singapore - Tanjong Pagar",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "82001",
+            "ADDRESSSTREETNAME": "Tanjong Pagar Plaza",
+            "ADDRESSUNITNUMBER": "24",
+            "LatLng": "1.27559619819284,103.842393171371",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "WabiSabi Holistic Lifestyle",
+            "ADDRESSBLOCKHOUSENUMBER": "6",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "59817",
+            "ADDRESSSTREETNAME": "Eu Tong Sen St. The Central",
+            "ADDRESSUNITNUMBER": "12",
+            "LatLng": "1.28886291929991,103.846556006065",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yaatra",
+            "ADDRESSBLOCKHOUSENUMBER": "114",
+            "ADDRESSPOSTALCODE": "88852",
+            "ADDRESSSTREETNAME": "A Neil Road",
+            "LatLng": "1.27917902296384,103.841769864721",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - One Raffles Place",
+            "DESCRIPTION": "Facilities: Group Exercise studio, free weights area, jacuzzi, swimming pool, cardiovascular and resistance  training equipmentOperating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 7.00am ? 7.00pmSunday and Public Holidays : Closed Tel: 6534 4333",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "48616",
+            "ADDRESSSTREETNAME": "Raffles Place",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.28433994842242,103.850982351781",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Sengkang ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6315 3577",
+            "ADDRESSBLOCKHOUSENUMBER": "57",
+            "ADDRESSPOSTALCODE": "544964",
+            "ADDRESSSTREETNAME": "Anchorvale Road",
+            "LatLng": "1.39550158789593,103.885784253769",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Tampines ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday). Lady Hours: 2.00 PM to 4.00 PM (Mon)Tel: 6260 1162",
+            "ADDRESSBLOCKHOUSENUMBER": "505",
+            "ADDRESSPOSTALCODE": "529652",
+            "ADDRESSSTREETNAME": "Tampines Ave 5",
+            "LatLng": "1.35429510351818,103.93963580414",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Toa Payoh ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6256 7153",
+            "ADDRESSBLOCKHOUSENUMBER": "301",
+            "ADDRESSPOSTALCODE": "319392",
+            "ADDRESSSTREETNAME": "Toa Payoh Lor 6",
+            "LatLng": "1.33060010108942,103.849986788241",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Body Pilot - Biopolis",
+            "ADDRESSBLOCKHOUSENUMBER": "11",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "138667",
+            "ADDRESSSTREETNAME": "Biopolis Way",
+            "ADDRESSUNITNUMBER": "4",
+            "LatLng": "1.30451127820755,103.791460023589",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Bodyworks - Finlayson Green",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "12",
+            "ADDRESSPOSTALCODE": "49246",
+            "ADDRESSSTREETNAME": "Finlayson Green",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28224086928672,103.851286590696",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Fitness",
+            "DESCRIPTION": "Operating Hours: Monday ? Friday: 8.30am ? 9.30pm Saturday: 9am ? 4pm Closed on Sundays, Christmas, New Year and Chinese New Year. We are open on rest of the public holidays.",
+            "ADDRESSBLOCKHOUSENUMBER": "434",
+            "ADDRESSPOSTALCODE": "98854",
+            "ADDRESSSTREETNAME": "Telok Blangah Road",
+            "LatLng": "1.27029599179716,103.81293029168",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Flow",
+            "ADDRESSBLOCKHOUSENUMBER": "733",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "269748",
+            "ADDRESSSTREETNAME": "2nd Avenue Junction",
+            "ADDRESSUNITNUMBER": "6",
+            "LatLng": "1.32982544868962,103.799469917652",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilates Inc - The Moving Body Group - East Coast",
+            "ADDRESSBLOCKHOUSENUMBER": "46",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "428766",
+            "ADDRESSSTREETNAME": "East Coast Road",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.30438467004432,103.903338648384",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Platinum Yoga",
+            "ADDRESSBUILDINGNAME": "Parkway Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSPOSTALCODE": "449408",
+            "ADDRESSSTREETNAME": "Marine Parade Central",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.30188733852456,103.905996039697",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "PowerMoves Pilates - Bishan Park",
+            "DESCRIPTION": "Operating Hours: Monday to Thursday: 8:30am to 1:30pm & 4:30pm to 9:30pm Friday: 8:30am to 1:30pm Saturday: 8:30am to 5:30pm Sunday: 9.30am to 1.30pm",
+            "ADDRESSBUILDINGNAME": "Aramsa ~ The Garden Spa",
+            "ADDRESSPOSTALCODE": "569931",
+            "ADDRESSSTREETNAME": "Bishan Park II",
+            "LatLng": "1.36254434770061,103.84749323637",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "PowerMoves Pilates - Dempsey Hill",
+            "DESCRIPTION": "Operating Hours: Monday to Thursday: 8:30am to 1:30pm & 4:30pm to 9:30pm Friday: 8:30am to 1:30pm Saturday: 8:30am to 5:30pm Sunday: 9.30am to 1.30pm",
+            "ADDRESSBLOCKHOUSENUMBER": "6",
+            "ADDRESSPOSTALCODE": "249683",
+            "ADDRESSSTREETNAME": "Dempsey Road",
+            "LatLng": "1.30484978466339,103.808565893546",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pure Yoga - Chevron House",
+            "ADDRESSBLOCKHOUSENUMBER": "4",
+            "ADDRESSPOSTALCODE": "48622",
+            "ADDRESSSTREETNAME": "30 Raffles Place",
+            "LatLng": "1.28423792027966,103.851927274914",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pure Yoga - Ngee Ann City",
+            "ADDRESSBUILDINGNAME": "Ngee Ann City Tower A",
+            "ADDRESSBLOCKHOUSENUMBER": "18",
+            "ADDRESSPOSTALCODE": "238873",
+            "ADDRESSSTREETNAME": "391A Orchard Road",
+            "LatLng": "1.30242417909429,103.83467613466",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Real Yoga",
+            "ADDRESSBUILDINGNAME": "The Centrepoint",
+            "ADDRESSBLOCKHOUSENUMBER": "176",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "238843",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "6",
+            "LatLng": "1.30197804716068,103.839758898411",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Reebok CrossFit Enduro",
+            "ADDRESSBUILDINGNAME": "Teck Heng Long Industrial Building",
+            "ADDRESSBLOCKHOUSENUMBER": "11",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "207629",
+            "ADDRESSSTREETNAME": "Syed Alwi Road",
+            "ADDRESSUNITNUMBER": "3",
+            "LatLng": "1.30681472605594,103.858169031632",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Singapore CrossFit Hub",
+            "ADDRESSBUILDINGNAME": "Citimac Building",
+            "ADDRESSBLOCKHOUSENUMBER": "605",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "368241",
+            "ADDRESSSTREETNAME": "Blk B",
+            "ADDRESSUNITNUMBER": "11",
+            "LatLng": "1.33378882726631,103.887714301749",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Sivananda Yoga Vedanta Centre",
+            "DESCRIPTION": "Tel: 90679100/ 98386704",
+            "ADDRESSBLOCKHOUSENUMBER": "21B",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "89835",
+            "ADDRESSSTREETNAME": "Bukit Pasoh Rd",
+            "LatLng": "1.27901545155803,103.840532034232",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Sky Fitness - Harbourfront",
+            "ADDRESSBUILDINGNAME": "HarbourFront Tower 2",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSFLOORNUMBER": "16",
+            "ADDRESSPOSTALCODE": "99254",
+            "ADDRESSSTREETNAME": "HarbourFront Place",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.26448635050271,103.818686870632",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Bedok ClubFITT Gym",
+            "DESCRIPTION": "Facilities: Standard Gymnasium EquipmentOperating Hours: 7.00 AM to 10.00 PM (Mon/Wed/Fri), 8.30 AM to 10.00 PM (Tue/Thur), 8.30 AM to 8.00 PM (Sat), (9.00 AM to 8.00 Pm (Sun), 9.00 AM to 5.00 PM (Public Holiday)Tel: 6244 5387",
+            "ADDRESSBLOCKHOUSENUMBER": "5",
+            "ADDRESSPOSTALCODE": "469645",
+            "ADDRESSSTREETNAME": "Bedok North St 2",
+            "LatLng": "1.32585712140622,103.938328173262",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Spaboutique",
+            "ADDRESSBLOCKHOUSENUMBER": "6",
+            "ADDRESSPOSTALCODE": "258373",
+            "ADDRESSSTREETNAME": "Nassim Road",
+            "LatLng": "1.30778575196489,103.825932498525",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Gym At Orchard",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7am - 10pm Saturday: 8am - 10pm Sunday: 8am - 8pm",
+            "ADDRESSBUILDINGNAME": "Liat Towers",
+            "ADDRESSBLOCKHOUSENUMBER": "4",
+            "ADDRESSPOSTALCODE": "238882",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "LatLng": "1.30550611670641,103.829984827987",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "The Pilates Place",
+            "ADDRESSBLOCKHOUSENUMBER": "60",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "78999",
+            "ADDRESSSTREETNAME": "Tras Street",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.27787296456741,103.844133723257",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - Fusionopolis",
+            "DESCRIPTION": "Facilities: Cardio equipment, weight machines, free weights, swimming pool, Group Exercise studio, Mind and Body studio.Operating Hours: Monday ? Friday : 6.00am ? 10.00pm Saturday : 7.00am ? 7.00pmSunday and Public Holidays : 8.00am ? 6.00pmTel: 6438 4484",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "23",
+            "ADDRESSPOSTALCODE": "138632",
+            "ADDRESSSTREETNAME": "Fusionopolis Way",
+            "ADDRESSUNITNUMBER": "11",
+            "LatLng": "1.29929406658312,103.787404060028",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - City Square Mall",
+            "DESCRIPTION": "Operating Hours: Monday-Friday:  8.00 AM - 10.00 PMSaturday: 9.00 AM - 9.30 PMSunday & Public Holiday: 9.00 AM - 9.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "180",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "208539",
+            "ADDRESSSTREETNAME": "Kitchener Road",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.31139349438914,103.856487121487",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "E's FITNESS PTE. LTD.",
+            "DESCRIPTION": "Working Hours: Monday - Friday7am - 10pmSaturday7am - 8pmSunday7am - 6pmTel: 6222 6517",
+            "ADDRESSBLOCKHOUSENUMBER": "51",
+            "ADDRESSPOSTALCODE": "89752",
+            "ADDRESSSTREETNAME": "Cantonment Road",
+            "LatLng": "1.27870948631099,103.840386703019",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "YogaDivas - Nassim Road",
+            "DESCRIPTION": "Tel: 68870760/ 94571096",
+            "ADDRESSBUILDINGNAME": "Spa Boutique",
+            "ADDRESSBLOCKHOUSENUMBER": "6",
+            "ADDRESSPOSTALCODE": "247974",
+            "ADDRESSSTREETNAME": "Nassim Road",
+            "LatLng": "1.29792400181845,103.814556916597",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Absolute Yoga - River Valley",
+            "ADDRESSBUILDINGNAME": "Valley Point",
+            "ADDRESSBLOCKHOUSENUMBER": "491",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "248371",
+            "ADDRESSSTREETNAME": "River Valley Rd",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.29301786111442,103.826940812301",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Yoga On Nassim",
+            "ADDRESSBUILDINGNAME": "Spa Boutique",
+            "ADDRESSBLOCKHOUSENUMBER": "6",
+            "ADDRESSPOSTALCODE": "269758",
+            "ADDRESSSTREETNAME": "Nassim Road",
+            "LatLng": "1.3310218845731,103.796264512395",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "YogaDivas - Leonie Hill",
+            "ADDRESSBUILDINGNAME": "Leonie Hill Condo",
+            "ADDRESSPOSTALCODE": "258373",
+            "ADDRESSSTREETNAME": "Leonie Hill Road",
+            "LatLng": "1.30778575196489,103.825932498525",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "YogaDivas - Phoenix Park",
+            "ADDRESSBUILDINGNAME": "Phoenix Park",
+            "ADDRESSBLOCKHOUSENUMBER": "308",
+            "ADDRESSPOSTALCODE": "247974",
+            "ADDRESSSTREETNAME": "Tanglin Road",
+            "LatLng": "1.29792400181845,103.814556916597",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Ananda Marga Yoga Society of Singapore - Parkway Centre",
+            "DESCRIPTION": "Operating Hours: Mon ? Fri : 9am ? 10pmSat ? Sun : 9am ? 4pm",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "7",
+            "ADDRESSPOSTALCODE": "449408",
+            "ADDRESSSTREETNAME": "Marine Parade Central",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.30188733852456,103.905996039697",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Balancing Rocks Yoga Studio",
+            "ADDRESSBLOCKHOUSENUMBER": "287",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "199551",
+            "ADDRESSSTREETNAME": "Beach Road",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.30097708408221,103.860481773329",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Basic Essence",
+            "ADDRESSBLOCKHOUSENUMBER": "501",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "259760",
+            "ADDRESSSTREETNAME": "Bukit Timah Road",
+            "ADDRESSUNITNUMBER": "4",
+            "LatLng": "1.32257317593847,103.814245545298",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Being In Yoga",
+            "ADDRESSBLOCKHOUSENUMBER": "2",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "287988",
+            "ADDRESSSTREETNAME": "Turf Club Road",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.33589728896884,103.795941517598",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Breathe Pilates - East Coast",
+            "ADDRESSBLOCKHOUSENUMBER": "217",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "428915",
+            "ADDRESSSTREETNAME": "East Coast Road",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.30759648523611,103.906933727641",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Slender Shapes - Upper Bukit Timah",
+            "DESCRIPTION": "Operating Hours: Monday - Friday:8.00am - 2.00pm3.00pm - 9.00pmSaturday:9.00am - 4.00pmSunday & PH: Closed",
+            "ADDRESSBUILDINGNAME": "Goh & Goh Building",
+            "ADDRESSBLOCKHOUSENUMBER": "110M",
+            "ADDRESSPOSTALCODE": "588172",
+            "ADDRESSSTREETNAME": "Upper Bukit Timah Road",
+            "LatLng": "1.34094072442015,103.776280180624",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Absolute Yoga - Telok Ayer",
+            "ADDRESSBLOCKHOUSENUMBER": "157A",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "68611",
+            "ADDRESSSTREETNAME": "Telok Ayer Street",
+            "LatLng": "1.28041369547153,103.847638181705",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Pilatique Pilates Studio",
+            "ADDRESSPOSTALCODE": "69250",
+            "ADDRESSSTREETNAME": "Gemmil Lane",
+            "ADDRESSUNITNUMBER": "8",
+            "LatLng": "1.2824640229959,103.846934447584",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Canvass Art and Yoga Studio",
+            "ADDRESSBLOCKHOUSENUMBER": "5",
+            "ADDRESSPOSTALCODE": "589820",
+            "ADDRESSSTREETNAME": "A Binjai Park",
+            "LatLng": "1.33583564516194,103.786616299314",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "COMO Shambhala Urban Escape",
+            "ADDRESSFLOORNUMBER": "6",
+            "ADDRESSPOSTALCODE": "238876",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.30717806036195,103.828468717265",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness First - The Cathay",
+            "DESCRIPTION": "Facilities: Cardio, strength and stretch areas and a Group Exercise studioOperating Hours: Monday ? Friday : 6.00am ? 10.30pm Saturday: 6.30am ? 10.30pmSunday and Public Holidays : 8.00am ? 10.00pmTel: 6732 4111",
+            "ADDRESSBLOCKHOUSENUMBER": "2",
+            "ADDRESSFLOORNUMBER": "4",
+            "ADDRESSPOSTALCODE": "229233",
+            "ADDRESSSTREETNAME": "Handy Road",
+            "ADDRESSUNITNUMBER": "5",
+            "LatLng": "1.29918374721933,103.847789792828",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Focus Pilates - Orchard",
+            "ADDRESSBLOCKHOUSENUMBER": "302",
+            "ADDRESSFLOORNUMBER": "8",
+            "ADDRESSPOSTALCODE": "238862",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "3",
+            "LatLng": "1.30394638048361,103.834826945699",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Focus Pilates - Raffles Place",
+            "ADDRESSBLOCKHOUSENUMBER": "20",
+            "ADDRESSFLOORNUMBER": "12",
+            "ADDRESSPOSTALCODE": "48979",
+            "ADDRESSSTREETNAME": "Malacca Street",
+            "ADDRESSUNITNUMBER": "0",
+            "LatLng": "1.28394229110606,103.850711622748",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Genesis Gym - CBD",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.30am - 9.30pmSaturday: 8.30am - 1.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "78",
+            "ADDRESSPOSTALCODE": "79017",
+            "ADDRESSSTREETNAME": "Tras Street",
+            "LatLng": "1.27742661017112,103.844050900534",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Genesis Gym - Mounbatten",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.30am - 9.30pmSaturday: 8.30am - 1.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "41306",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "398007",
+            "ADDRESSUNITNUMBER": "20",
+            "LatLng": "1.30746518712488,103.881270808537",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Gold's Gym - Bukit Merah",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.30am - 9.00pmSaturday: 7.30am - 3.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "3500",
+            "ADDRESSPOSTALCODE": "159837",
+            "ADDRESSSTREETNAME": "Bukit Merah Central",
+            "LatLng": "1.28205540617869,103.818078216386",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Green Yoga",
+            "DESCRIPTION": "Operating Hours: Mon - Fri: 12pm to 10pmSat, Sun & PH: 9am to 7pm",
+            "ADDRESSBLOCKHOUSENUMBER": "232",
+            "ADDRESSPOSTALCODE": "574363",
+            "ADDRESSSTREETNAME": "A Upper Thomson Road",
+            "LatLng": "1.35306949447786,103.835093523472",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "H.om Yoga",
+            "DESCRIPTION": "Operating Hours: Monday & Friday: 9.30am - 10.00pmTuesday - Thursday: 7.00am - 10.30pmSaturday & Sunday: 9.30am - 7.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "49745",
+            "ADDRESSSTREETNAME": "Canton Street",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.28621325740623,103.849431927363",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Impact Mixed Martial Arts",
+            "DESCRIPTION": "Operating Hours: Weekdays:12.15pm - 9.45pmSaturday:9.30am - 5.30pmSunday:11.00am - 5.30pm",
+            "ADDRESSBLOCKHOUSENUMBER": "3",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "68805",
+            "ADDRESSSTREETNAME": "Shenton Way",
+            "ADDRESSUNITNUMBER": "6",
+            "LatLng": "1.27851893758259,103.850071543607",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Impakt Singapore",
+            "ADDRESSBLOCKHOUSENUMBER": "146",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "68909",
+            "ADDRESSSTREETNAME": "Robinson Road",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.27816986401168,103.848096103439",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Iyengar Yoga Centre Singapore - Goldhill Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "1",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "308899",
+            "ADDRESSSTREETNAME": "Goldhill Plaza",
+            "ADDRESSUNITNUMBER": "31",
+            "LatLng": "1.31782868295281,103.842889382967",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Iyengar Yoga Centre Singapore - Neil Road Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "146B",
+            "ADDRESSPOSTALCODE": "88875",
+            "ADDRESSSTREETNAME": "Neil Road",
+            "LatLng": "1.27828754868066,103.840648509607",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Jagsport",
+            "ADDRESSBLOCKHOUSENUMBER": "340B",
+            "ADDRESSPOSTALCODE": "208574",
+            "ADDRESSSTREETNAME": "King George's Ave",
+            "LatLng": "1.31015179809918,103.862434227156",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Kapap Singapore",
+            "ADDRESSBLOCKHOUSENUMBER": "22",
+            "ADDRESSPOSTALCODE": "89129",
+            "ADDRESSSTREETNAME": "Keong Siak Road",
+            "LatLng": "1.28004625410654,103.841668651741",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Kate Porter Yoga",
+            "ADDRESSBUILDINGNAME": "Laguna Park",
+            "ADDRESSBLOCKHOUSENUMBER": "5000",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "449290",
+            "ADDRESSSTREETNAME": "Marine Parade Road",
+            "ADDRESSUNITNUMBER": "27",
+            "LatLng": "1.31004098717818,103.931988303014",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Oasis Holistic",
+            "ADDRESSBLOCKHOUSENUMBER": "10",
+            "ADDRESSFLOORNUMBER": "1",
+            "ADDRESSPOSTALCODE": "180010",
+            "ADDRESSSTREETNAME": "Selegie Road",
+            "ADDRESSUNITNUMBER": "50",
+            "LatLng": "1.30370879489711,103.850537243387",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "OhmSantih Yoga",
+            "ADDRESSBLOCKHOUSENUMBER": "10A",
+            "ADDRESSPOSTALCODE": "189203",
+            "ADDRESSSTREETNAME": "Haji Lane",
+            "LatLng": "1.30050427305572,103.859384497354",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Gold's Gym - Tanjong Pagar",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.30am - 9.00pmSaturday: 7.30am - 3.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "86",
+            "ADDRESSPOSTALCODE": "88507",
+            "ADDRESSSTREETNAME": "A Tanjong Pagar Road",
+            "LatLng": "1.27843513234261,103.843683536784",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Masters' Yoga Sadhan",
+            "ADDRESSBLOCKHOUSENUMBER": "88A",
+            "ADDRESSPOSTALCODE": "88509",
+            "ADDRESSSTREETNAME": "Tanjong Pagar Road",
+            "LatLng": "1.27839696546876,103.843673722806",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Fitness Factory -",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 7.00am - 9.00pmSaturday: 7.00am - 4.00pmSunday and Public Holiday: 8.00am - 3.00pm",
+            "ADDRESSBLOCKHOUSENUMBER": "41276",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "49870",
+            "ADDRESSUNITNUMBER": "1",
+            "LatLng": "1.2884814659674,103.849144620549",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Active Life Center",
+            "DESCRIPTION": "P: +65-97615523 E: info@activered.sg",
+            "ADDRESSBUILDINGNAME": "Far East Shopping Centre",
+            "ADDRESSBLOCKHOUSENUMBER": "545",
+            "ADDRESSFLOORNUMBER": "16",
+            "ADDRESSPOSTALCODE": "238882",
+            "ADDRESSSTREETNAME": "Orchard Road",
+            "ADDRESSUNITNUMBER": "10",
+            "LatLng": "1.30550611670641,103.829984827987",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Jurong Point 2",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 9.00 AM - 10.00 PM Saturday: 9.00 AM - 9.30 PMSunday & Public Holiday: 9.00 AM - 9.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "63",
+            "ADDRESSFLOORNUMBER": "3",
+            "ADDRESSPOSTALCODE": "648886",
+            "ADDRESSSTREETNAME": "Jurong West Central 3",
+            "LatLng": "1.33983014805774,103.706460886826",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Liang Court",
+            "DESCRIPTION": "Operating Hours: Monday - Friday: 10.30 AM - 9.30 PMSaturday: 10.30 AM - 9.00 PMSunday & Public Holiday: 10.30 AM - 9.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "177",
+            "ADDRESSFLOORNUMBER": "2",
+            "ADDRESSPOSTALCODE": "179030",
+            "ADDRESSSTREETNAME": "River Valley Road",
+            "ADDRESSUNITNUMBER": "17",
+            "LatLng": "1.29151478613339,103.844586298874",
+            "ICON_NAME": "Fit@SG.png"
+        },
+        {
+            "NAME": "Amore Fitness - Tampines 1",
+            "DESCRIPTION": "Operating Hours: Monday-Friday: 8.00 AM - 10.00 PMSaturday: 9.00 AM - 9.30 PMSunday & Public Holiday: 9.00 AM - 9.00 PM",
+            "ADDRESSBLOCKHOUSENUMBER": "10",
+            "ADDRESSFLOORNUMBER": "5",
+            "ADDRESSPOSTALCODE": "529536",
+            "ADDRESSSTREETNAME": "Tampines Central 1",
+            "ADDRESSUNITNUMBER": "18",
+            "LatLng": "1.35431556438278,103.94501945797",
+            "ICON_NAME": "Fit@SG.png"
+        }
+    ]
+}
