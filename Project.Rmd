@@ -375,7 +375,71 @@ tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance"
   tm_shape(mrt_raster_1s) + tm_raster(palette="red", title="Points")
 ```
 
+### KDE functions
+```{r}
+library(jsonlite)
+library(splitstackshape)
+library(sp)
+library(leaflet)
+library(data.table)
+library(KernSmooth)
+library(maptools)
+library(rgdal)
 
+kde_jsonlist_data<-function(list){
+  dt<-data.table()
+  for (str in list){
+    data = fromJSON(str)
+    latlng = data.frame(ll=data[["SrchResults"]][["LatLng"]])
+    data_coords<-data.frame(cSplit(latlng,'ll',','))[-1,] 
+    data_coords <- data_coords[, c(2, 1)]
+    setDT(data_coords)
+    dt <-rbindlist(list(dt,data_coords), use.names=TRUE)
+  }
+  kde_display(dt)
+}
+
+kde_sf_data<-function(sf){
+  latlng<-st_coordinates(sf)
+  sf_coords <- latlng[, c(2, 1)]
+  #setDT(data_coords)
+  kde_display(sf_coords)
+}
+
+##Renders heatmap based on calculated KDE
+kde_display<-function(arr){
+  kde <- bkde2D(arr,bandwidth=c(0.005, 0.003), gridsize = c(1000,1000))
+  KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 30)] <- NA
+  palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(KernelDensityRaster, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = KernelDensityRaster@data@values, 
+              title = "Kernel Density")
+}
+```
+
+#Plotting KDEs for ESDA
+```{r}
+kde_sf_data(access_points_sf)
+```
+```{r}
+kde_sf_data(supermarkets_sf)
+```
+```{r}
+kde_sf_data(hawkercentres_sf)
+```
+```{r}
+kde_sf_data(pharmacy_sf)
+```
+```{r}
+amenities_list<-c("data\\exercisefacilities.json","data\\libraries.json","data\\preschools_location.json","data\\communityclubs.json")
+kde_jsonlist_data(amenities_list)
+```
 
 
 
