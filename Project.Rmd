@@ -9,6 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ## Setting up
 
 ```{r pressure, echo=FALSE, warning=FALSE}
@@ -19,6 +20,8 @@ library(sf)
 library(raster)
 library(rgdal)
 library(spatstat)
+library(stars)
+library(tidyverse)
 ```
 
 ## Loading data
@@ -300,6 +303,7 @@ Window(random_point) <- sg_window
 plot(distances_mrt)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
 hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
 abline(v=ann_observed, col="blue")
@@ -375,7 +379,33 @@ tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance"
   tm_shape(mrt_raster_1s) + tm_raster(palette="red", title="Points")
 ```
 
+Mask the distances_mrt raster with the shape of Singapore
+```{r}
+plot(mrt.1s.d)
+mrt.1s.d <- mask(mrt.1s.d, sg)
+plot(mrt.1s.d)
+plot(access_points_ppp, add = TRUE)
+```
+Convert distances_mrt from raster to im
+```{r}
+class(mrt.1s.d)
+mrt.1s.d.im <- as.im(mrt.1s.d)
+class(mrt.1s.d)
+```
+Run monte carlo simulation for 1000 epochs
+```{r}
+n <- 1000 # number of simulations
+ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
 
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=mrt.1s.d.im)
+  ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_mrt)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
 
 
 
