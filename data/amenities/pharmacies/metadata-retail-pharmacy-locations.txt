@@ -1,0 +1,44 @@
+# Metadata for Retail pharmacy locations
+---
+Identifier: 'a7b32fa8-c0a9-4591-890a-9bfc89e570e8'
+Name: 'retail-pharmacy-locations'
+Title: 'Retail pharmacy locations'
+Description: 'List of registered retail pharmacies'
+Topics:
+  - 'Health'
+Keywords:
+  - 'OneMap'
+  - 'beauty'
+  - 'dispensary'
+  - 'drugstore'
+  - 'healthcare'
+  - 'medicine'
+  - 'non-prescription drugs'
+  - 'personal care'
+  - 'pharmacy'
+  - 'sundry'
+  - 'supplements'
+Publisher:
+  Name: 'Health Sciences Authority'
+  Admin 1:
+    Name: 'Alvin Low'
+    Department: 'HEALTH SCIENCES AUTHORITY'
+    Email: 'alvin_low@hsa.gov.sg'
+Sources:
+  - 'Health Sciences Authority'
+License: 'https://data.gov.sg/open-data-licence'
+Frequency: 'Half-yearly'
+Last Updated: '2019-10-09T11:48:14.530783'
+Resources:
+  -
+    Identifier: '19c90bf1-8c2d-4faf-8c2c-e4351630c9ec'
+    Title: 'Retail pharmacy locations (KML)'
+    Url: 'https://geo.data.gov.sg/registered-pharmacy/2019/03/18/kml/registered-pharmacy.kml'
+    Format: 'KML'
+    Last Updated: '2019-03-17T16:00:00'
+  -
+    Identifier: 'ae46281d-8ee1-4fa3-ab07-03ab409946d8'
+    Title: 'Retail pharmacy locations (GEOJSON)'
+    Url: 'https://geo.data.gov.sg/registered-pharmacy/2019/03/18/geojson/registered-pharmacy.geojson'
+    Format: 'GeoJSON'
+    Last Updated: '2019-03-17T16:00:00'
