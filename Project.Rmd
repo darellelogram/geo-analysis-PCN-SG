@@ -460,6 +460,20 @@ tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance"
 ```
 
 
+##Skeleton code for fetching points by region
+```{r}
+subset<-subset(planning_area_sf, Name %in% c('PASIR RIS','MANDAI'))
+
+sf_use_s2(FALSE)
+st_intersects(mrt_exits_sf,subset)
+
+
+within<-st_filter(mrt_exits_sf,subset)
+
+
+tm_shape(subset(planning_area_sf, Name %in% c('PASIR RIS','MANDAI'))) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(within) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") 
+```
+
 
 
 
