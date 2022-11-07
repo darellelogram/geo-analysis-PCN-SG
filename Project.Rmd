@@ -521,18 +521,19 @@ amenities_list<-c("data\\exercisefacilities.json","data\\libraries.json","data\\
 kde_jsonlist_data(amenities_list)
 ```
 
-##Skeleton code for filtering points per region
+##Filtering points per region
 ```{r}
-subset<-subset(planning_area_sf, Name %in% c('PASIR RIS','MANDAI'))
+library(sf)
+library(tmap)
 
 sf_use_s2(FALSE)
-st_intersects(mrt_exits_sf,subset)
+mrt_exits_filtered_sf<-st_filter(mrt_exits_sf,training_sf)
 
+tmap_mode("plot")
 
-within<-st_filter(mrt_exits_sf,subset)
-
-
-tm_shape(subset(planning_area_sf, Name %in% c('PASIR RIS','MANDAI'))) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(within) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") 
+tm_shape(training_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(mrt_exits_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
+  tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 
 
