@@ -300,10 +300,81 @@ Window(random_point) <- sg_window
 plot(distances_mrt)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
-hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
+hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
 abline(v=ann_observed, col="blue")
 ```
+
+```{r}
+n <- 1000 # number of simulations
+ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=distances_mrt_im)
+  ann_distances_mrt[i] <- mean(nndist(random_point, k=2))
+}
+
+Window(random_point) <- sg_window
+plot(distances_mrt)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+```{r}
+hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
+abline(v=ann_observed, col="blue")
+```
+
+## Parks
+```{r}
+parks <- st_read("data/parks-geojson.geojson")
+class(parks)
+```
+```{r}
+parks2 <- st_transform(parks, crs(sg))
+```
+```{r}
+parks_sp <- as(parks2, "Spatial")
+class(parks_sp)
+```
+Get x and y coordinates from MRT exits
+```{r}
+distances_parks <- distanceFromPoints(object = r, xy=coordinates(parks_sp)[,1:2])
+plot(distances_parks)
+```
+Mask the distances_mrt raster with the shape of Singapore
+```{r}
+distances_parks <- mask(distances_parks, sg)
+plot(distances_parks)
+plot(access_points_ppp, add = TRUE)
+```
+Convert distances_mrt from raster to im
+```{r}
+class(distances_parks)
+distances_parks_im <- as.im(distances_parks)
+class(distances_parks)
+```
+Run monte carlo simulation for 1000 epochs
+```{r}
+n <- 1000 # number of simulations
+ann_distances_parks <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=distances_parks_im)
+  ann_distances_parks[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_parks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+```{r}
+hist(ann_distances_parks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_parks))
+abline(v=ann_observed, col="blue")
+```
+
+
+
+
 
 
 ## Markov Chain
