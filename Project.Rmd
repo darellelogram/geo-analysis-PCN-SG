@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Setting up
 
-```{r pressure, echo=FALSE, warning=FALSE}
+```{r pressure, echo=FALSE, warning=FALSE, error=FALSE}
 library(GISTools)
 library(tmap)
 library(sp)
@@ -24,15 +24,17 @@ library(rgeos)
 
 ## Loading data
 ### Polygons and lines
-```{r}
-planning_area_sf <- st_read("data/Planning_Area_Census2010.kml")
-
-class(planning_area_sf)
+```{r, warning=FALSE, error=FALSE}
+planning_area_sf <- st_read("data/town-councils/Planning_Area_Census2010.kml")
+sg <- readOGR("./data/town-councils", "Region_Census2010")
+sg_combined <- gUnaryUnion(sg)
+sgclass(planning_area_sf)
 ```
 ### Points
 Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves.
 Next, we have data on various public amenities like supermarkets, hawker centres, pharmacies as well as transportation infrastructure like MRT exits.
 ```{r}
+
 access_points_sf <- st_read("data/PCN_Access_Points.kml")
 supermarkets_sf <- st_read("data/supermarkets.kml")
 hawkercentres_sf <- st_read("data/hawkercentre.kml")
@@ -53,20 +55,19 @@ class(busstops_sf)
 ### Raster
 Next, we read in raster data, which consists of only population density data.
 ```{r}
-GDALinfo("data/popmap15adj.tif")
+GDALinfo("data/population-density/popmap15adj.tif")
 ```
 
 ```{r}
-pop_density <- raster("data/popmap15adj.tif")
+pop_density <- raster("data/population-density/popmap15adj.tif")
 pop_density
 ```
 ## Exploratory Data Analysis
 ### Park Connectors
 First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
 ```{r}
-tmap_mode("view")
-
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tmap_mode("plot")
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 We also want to get a buffer of 500m around the PCN access points
 ```{r}
@@ -79,9 +80,13 @@ Now, we will display the geographical distribution of the various amenities (sup
 We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets.
 
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(supermarkets_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "skyblue") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red", legend.col.show=TRUE, shapes.labels='PCAPs') + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(supermarkets_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "skyblue", legend.col.show=TRUE, shapes.labels='supermarkets') + tm_add_legend(type="symbol", labels=c("supermarkets"), col='skyblue') + 
+  tm_shape(access_points_500buf) + tm_borders("brown") +
+  tm_layout(title="PCAPs and supermarkets", title.size = 0.65, title.position = c(0.02, "bottom"), legend.show=TRUE, legend.outside=FALSE, legend.text.size=0.7) 
 ```
 ```{r}
 # convert buffer from sfc to sf
@@ -100,9 +105,12 @@ nearby_supermarkets_count / 742 * 100
 ### Hawker centres
 For hawker centres, the correlation is not as obvious.
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(hawkercentres_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined)+ tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(hawkercentres_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_add_legend(type="symbol", labels=c("hawker centres"), col='green') + 
+  tm_shape(access_points_500buf) + tm_borders("brown") +
+  tm_layout(title="PCAPs and Hawker Centres", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ```{r}
 hawkercentres_sp <- as_Spatial(hawkercentres_sf)
@@ -117,9 +125,13 @@ nearby_hawker_count / 125 * 100
 For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation.
 Unlike the MRT exits, we see that there are very few PCN access points in the Downtown Core area. This could be because of the lower priority assigned to cycling paths over mass rapid transit in a space-scarce area like the Downtown Core.
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(mrt_exits_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "orange") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(mrt_exits_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
+  tm_shape(access_points_500buf) + tm_borders("brown") +
+  tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ```{r}
 mrt_exits_sp <- as_Spatial(mrt_exits_sf)
@@ -130,13 +142,16 @@ nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_mrt_count / 474 * 100
 ```
-
 ### Pharmacies
 For pharmacies, there doesn't seem to be a clear pattern.
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(pharmacy_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "purple") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') + 
+  tm_shape(pharmacy_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "purple") + tm_add_legend(type="symbol", labels=c("pharmacies"), col='purple') +
+  tm_shape(access_points_500buf) + tm_borders("brown") +
+  tm_layout(title="PCAPs and pharmacies", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ```{r}
 pharmacy_sp <- as_Spatial(pharmacy_sf)
@@ -149,9 +164,13 @@ nearby_pharm_count / 269 * 100
 ```
 ### Bus stops
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(busstops_sf) + tm_symbols(size = 0.1, alpha = 0.2, col = "blue") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(busstops_sf) + tm_symbols(size = 0.1, alpha = 0.2, col = "blue") + tm_add_legend(type="symbol", labels=c("bus stops"), col='blue') +
+  tm_shape(access_points_500buf) + tm_borders("brown") + 
+  tm_layout(title="PCAPs and bus stops", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ```{r}
 busstops_sp <- as_Spatial(busstops_sf)
@@ -168,9 +187,13 @@ nearby_busstops_count / 5160 * 100
 
 ### Parks
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(parks) + tm_symbols(size = 0.1, alpha = 0.5, col = "pink") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(parks) + tm_symbols(size = 0.1, alpha = 0.5, col = "pink") + tm_add_legend(type="symbol", labels=c("parks"), col='pink') +
+  tm_shape(access_points_500buf) + tm_borders("brown") + 
+  tm_layout(title="PCAPs and parks", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ```{r}
 park_sp <- as_Spatial(parks)
@@ -187,11 +210,12 @@ Interestingly, areas with the highest population density (Serangoon, Hougang and
 
 Standing out as well is the central part of Singapore, which has virtually zero population density. This region encompasses the MacRitchie Reservoir area and naturally is not home to any human population density. It might be useful to exclude this region in later analysis to prevent confounding.
 ```{r}
-tmap_mode("view")
+tmap_mode("plot")
 
-# tm_shape(pop_density) + tm_raster() + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
-
-tm_shape(pop_density) + tm_raster() + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(pop_density, bbox=st_bbox(sg_combined)) + tm_raster(title="Population Density") +
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='green') +
+  tm_shape(sg_combined) + tm_borders() + 
+  tm_layout(title="PCAPs and Population Density", title.size = 0.65, title.position = c(0.02, "bottom"), legend.position=c("right", "bottom"))
 ```
 
 ## Extracting planning areas to observe
@@ -209,7 +233,7 @@ pharmacy_gd <- 269 / sg_area
 ```
 ## Quadrat density
 ```{r}
-sg <- readOGR("./data", "Region_Census2010")
+sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg
 sg_window <- as.owin(sg)
 ```
@@ -458,10 +482,6 @@ abline(v=ann_observed, col="blue")
 ```
 
 
-
-
-
-
 ## Markov Chain
 ```{r}
 library(rgdal)
@@ -529,6 +549,87 @@ mrt.1s.d <- distance(mrt_raster_1s)
 tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance") +
   tm_legend(outside=TRUE, text.size=.8) +
   tm_shape(mrt_raster_1s) + tm_raster(palette="red", title="Points")
+```
+
+### KDE functions
+```{r}
+library(jsonlite)
+library(splitstackshape)
+library(sp)
+library(leaflet)
+library(data.table)
+library(KernSmooth)
+library(maptools)
+library(rgdal)
+
+kde_jsonlist_data<-function(list){
+  dt<-data.table()
+  for (str in list){
+    data = fromJSON(str)
+    latlng = data.frame(ll=data[["SrchResults"]][["LatLng"]])
+    data_coords<-data.frame(cSplit(latlng,'ll',','))[-1,] 
+    data_coords <- data_coords[, c(2, 1)]
+    setDT(data_coords)
+    dt <-rbindlist(list(dt,data_coords), use.names=TRUE)
+  }
+  kde_display(dt)
+}
+
+kde_sf_data<-function(sf){
+  sf_coords<-st_coordinates(sf)
+  kde_display(sf_coords)
+}
+
+tmap
+
+##Renders heatmap based on calculated KDE
+kde_display<-function(arr){
+  kde <- bkde2D(arr,bandwidth=c(0.005, 0.003), gridsize = c(1000,1000))
+  KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 30)] <- NA
+  palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(KernelDensityRaster, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = KernelDensityRaster@data@values, 
+              title = "Kernel Density")
+}
+```
+
+#Plotting KDEs for ESDA
+```{r}
+kde_sf_data(access_points_sf)
+```
+```{r}
+kde_sf_data(supermarkets_sf)
+```
+```{r}
+kde_sf_data(hawkercentres_sf)
+```
+```{r}
+kde_sf_data(pharmacy_sf)
+```
+```{r}
+amenities_list<-c("data\\amenities\\others\\exercisefacilities.json","data\\amenities\\others\\libraries.json","data\\amenities\\others\\preschools_location.json","data\\amenities\\others\\communityclubs.json")
+kde_jsonlist_data(amenities_list)
+```
+
+##Filtering points per region
+```{r}
+library(sf)
+library(tmap)
+
+sf_use_s2(FALSE)
+mrt_exits_filtered_sf<-st_filter(mrt_exits_sf,training_sf)
+
+tmap_mode("plot")
+
+tm_shape(training_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(mrt_exits_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
+  tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 
 
