@@ -119,9 +119,9 @@ tm_shape(pop_density, bbox=st_bbox(sg_combined)) + tm_raster(title="Population D
 ```
 
 ## Extracting planning areas to observe
-```{r}
+```{r, echo=FALSE, }
 training_sf <- planning_area_sf[planning_area_sf$Name %in% c("YISHUN","JURONG EAST", "JURONG WEST", "TAMPINES", "PASIR RIS", "BEDOK"),]
-training_sf
+# training_sf
 ```
 ## Calculating global density
 ```{r}
@@ -155,7 +155,7 @@ Q10 <- quadratcount(access_points_ppp, nx=10, ny=10)
 Q15 <- quadratcount(access_points_ppp, nx=15, ny=15)
 Q20 <- quadratcount(access_points_ppp, nx=20, ny=20)
 Q40 <- quadratcount(access_points_ppp, nx=40, ny=40)
-plot(Q40)
+plot(Q20)
 ```
 From the quadrat density graph, we again see that most access points are concentrated in the North and West.
 ```{r}
@@ -173,11 +173,14 @@ plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 plot(intensity(Q20, image=TRUE), main=NULL, las=1)
 # plot access points
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
+
 ```
 
 ```{r}
 # plot the density raster
-plot(intensity(Q40, image=TRUE), main=NULL, las=1)
+plot(intensity(Q20, image=TRUE), main=NULL, las=1)
+legend(add = TRUE, 'bottomright', inset=0.05, lty=0, title="point density", legend=seq(0, 6, 1))
+
 # plot access points
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
@@ -190,27 +193,27 @@ brks <- c(0, 50, 100, 150, 200, 250, 300)
 zcut <- cut(pop_density_q, breaks = brks)
 pop_tess <- tess(image = zcut)
 
-Q2 <- quadratcount(access_points_ppp, tess = pop_tess)
-
+Qpop <- quadratcount(access_points_ppp, tess = pop_tess)
 ```
 
 ```{r}
-plot(Q2, main="", las=1)
+plot(Qpop, main="", las=1)
 ```
 
 ```{r}
 # compute density within each quadrat
-Q2_density <- intensity(Q2)
-Q2_density
+Qpop_density <- intensity(Qpop)
+Qpop_density
 ```
 
 ```{r}
 cl <-  interp.colours(c("blue", "green", "yellow", "orange", "red", "darkred"), 6)
 # plot the density raster
-plot(intensity(Q2, image=TRUE), main=NULL, las=1, col=cl)
+plot(intensity(Qpop, image=TRUE), main=NULL, las=1, col=cl)
 # plot access points
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
+
 # Monte Carlo Q20 (Shu Ling)
 ```{r}
 ann_observed <- mean(nndist(access_points_ppp, k=1))
@@ -241,11 +244,11 @@ mrt_exits_q <- st_transform(mrt_exits_sf, crs(sg))
 # convert sf to ppp
 mrt_exits_ppp <- as.ppp(st_coordinates(mrt_exits_q), W=sg_window)
 
-MRT_Q20 <- quadratcount(mrt_exits_ppp, nx=20, ny=20)
-plot(MRT_Q20)
+MRT_Qpop0 <- quadratcount(mrt_exits_ppp, nx=20, ny=20)
+plot(MRT_Qpop0)
 ```
 ```{r}
-MRT_density20 <- intensity(MRT_Q20, image=TRUE)
+MRT_density20 <- intensity(MRT_Qpop0, image=TRUE)
 plot(MRT_density20)
 class(MRT_density20)
 ```
@@ -404,7 +407,7 @@ for (i in 1:n) {
 }
 
 ## try with nsim argument
-rpoint(n=length(access_points_q), f=Q20_tess_im, nsim=1)
+rpoint(n=length(access_points_q), f=Qpop0_tess_im, nsim=1)
 
 Window(rand.p) <- ma.km
 plot(rand.p, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
