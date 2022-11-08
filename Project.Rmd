@@ -480,11 +480,11 @@ kde_jsonlist_data<-function(list){
 }
 
 kde_sf_data<-function(sf){
-  latlng<-st_coordinates(sf)
-  sf_coords <- latlng[, c(2, 1)]
-  #setDT(data_coords)
+  sf_coords<-st_coordinates(sf)
   kde_display(sf_coords)
 }
+
+tmap
 
 ##Renders heatmap based on calculated KDE
 kde_display<-function(arr){
@@ -517,7 +517,7 @@ kde_sf_data(hawkercentres_sf)
 kde_sf_data(pharmacy_sf)
 ```
 ```{r}
-amenities_list<-c("data\\exercisefacilities.json","data\\libraries.json","data\\preschools_location.json","data\\communityclubs.json")
+amenities_list<-c("data\\amenities\\others\\exercisefacilities.json","data\\amenities\\others\\libraries.json","data\\amenities\\others\\preschools_location.json","data\\amenities\\others\\communityclubs.json")
 kde_jsonlist_data(amenities_list)
 ```
 
