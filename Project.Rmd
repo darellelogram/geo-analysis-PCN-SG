@@ -28,19 +28,17 @@ library(rgeos)
 planning_area_sf <- st_read("data/town-councils/Planning_Area_Census2010.kml")
 sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg_combined <- gUnaryUnion(sg)
-sgclass(planning_area_sf)
 ```
 ### Points
 Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves.
 Next, we have data on various public amenities like supermarkets, hawker centres, pharmacies as well as transportation infrastructure like MRT exits.
 ```{r}
-
-access_points_sf <- st_read("data/PCN_Access_Points.kml")
-supermarkets_sf <- st_read("data/supermarkets.kml")
-hawkercentres_sf <- st_read("data/hawkercentre.kml")
-mrt_exits_sf <- st_read("data/lta-mrt-station-exit-kml.kml")
-pharmacy_sf <- st_read("data/registered_pharmacy.kml")
-parks <- st_read("data/parks-geojson.geojson")
+access_points_sf <- st_read("data/PCNs/PCN_Access_Points.kml")
+supermarkets_sf <- st_read("data/amenities/supermarkets/supermarkets.kml")
+hawkercentres_sf <- st_read("data/amenities/hawker-centres/hawkercentre.kml")
+mrt_exits_sf <- st_read("data/MRTs/lta-mrt-station-exit-kml.kml")
+pharmacy_sf <- st_read("data/amenities/pharmacies/retail-pharmacy-locations-kml.kml")
+parks <- st_read("data/parks/parks-geojson.geojson")
 busstops_sf <- st_read("data/BusStop.shp")
 
 
@@ -67,7 +65,7 @@ pop_density
 First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
 ```{r}
 tmap_mode("plot")
-tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 We also want to get a buffer of 500m around the PCN access points
 ```{r}
