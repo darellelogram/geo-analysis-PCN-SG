@@ -389,10 +389,6 @@ abline(v=ann_observed, col="blue")
 ```
 
 
-
-
-
-
 ## Markov Chain
 ```{r}
 library(rgdal)
@@ -460,6 +456,87 @@ mrt.1s.d <- distance(mrt_raster_1s)
 tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance") +
   tm_legend(outside=TRUE, text.size=.8) +
   tm_shape(mrt_raster_1s) + tm_raster(palette="red", title="Points")
+```
+
+### KDE functions
+```{r}
+library(jsonlite)
+library(splitstackshape)
+library(sp)
+library(leaflet)
+library(data.table)
+library(KernSmooth)
+library(maptools)
+library(rgdal)
+
+kde_jsonlist_data<-function(list){
+  dt<-data.table()
+  for (str in list){
+    data = fromJSON(str)
+    latlng = data.frame(ll=data[["SrchResults"]][["LatLng"]])
+    data_coords<-data.frame(cSplit(latlng,'ll',','))[-1,] 
+    data_coords <- data_coords[, c(2, 1)]
+    setDT(data_coords)
+    dt <-rbindlist(list(dt,data_coords), use.names=TRUE)
+  }
+  kde_display(dt)
+}
+
+kde_sf_data<-function(sf){
+  latlng<-st_coordinates(sf)
+  sf_coords <- latlng[, c(2, 1)]
+  #setDT(data_coords)
+  kde_display(sf_coords)
+}
+
+##Renders heatmap based on calculated KDE
+kde_display<-function(arr){
+  kde <- bkde2D(arr,bandwidth=c(0.005, 0.003), gridsize = c(1000,1000))
+  KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 30)] <- NA
+  palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(KernelDensityRaster, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = KernelDensityRaster@data@values, 
+              title = "Kernel Density")
+}
+```
+
+#Plotting KDEs for ESDA
+```{r}
+kde_sf_data(access_points_sf)
+```
+```{r}
+kde_sf_data(supermarkets_sf)
+```
+```{r}
+kde_sf_data(hawkercentres_sf)
+```
+```{r}
+kde_sf_data(pharmacy_sf)
+```
+```{r}
+amenities_list<-c("data\\exercisefacilities.json","data\\libraries.json","data\\preschools_location.json","data\\communityclubs.json")
+kde_jsonlist_data(amenities_list)
+```
+
+##Filtering points per region
+```{r}
+library(sf)
+library(tmap)
+
+sf_use_s2(FALSE)
+mrt_exits_filtered_sf<-st_filter(mrt_exits_sf,training_sf)
+
+tmap_mode("plot")
+
+tm_shape(training_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(mrt_exits_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
+  tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 
 
