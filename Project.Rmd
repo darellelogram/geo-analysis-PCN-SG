@@ -191,7 +191,6 @@ zcut <- cut(pop_density_q, breaks = brks)
 pop_tess <- tess(image = zcut)
 
 Q2 <- quadratcount(access_points_ppp, tess = pop_tess)
-
 ```
 
 ```{r}
@@ -234,6 +233,7 @@ plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 hist(ann_pop, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_pop))
 abline(v=ann_observed, col="blue")
 ```
+
 ## MRT exits
 ```{r}
 # convert crs of access_points_sf to crs of sg
@@ -366,6 +366,7 @@ class(distances_parks)
 distances_parks_im <- as.im(distances_parks)
 class(distances_parks)
 ```
+
 Run monte carlo simulation for 1000 epochs
 ```{r}
 n <- 1000 # number of simulations
@@ -527,13 +528,105 @@ library(sf)
 library(tmap)
 
 sf_use_s2(FALSE)
-mrt_exits_filtered_sf<-st_filter(mrt_exits_sf,training_sf)
+regional_sf <- planning_area_sf[planning_area_sf$Name %in% c("JURONG WEST"),]
+mrt_regional_sf<-st_filter(mrt_exits_sf,regional_sf)
+ap_regional_sf<-st_filter(access_points_sf,regional_sf)
 
+plot(regional_sf)
 tmap_mode("plot")
 
-tm_shape(training_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+tm_shape(regional_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(access_points_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("Access Points"), col='red') + 
   tm_shape(mrt_exits_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
   tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
+
+```
+
+```{r}
+regional_st<-st_transform(regional_sf,crs(regional_sf))
+regional_sf <- st_transform(regional_sf, crs = 6345)
+regional_sp <- as_Spatial(st_zm(regional_sf))
+regional_window <- as.owin(regional_sp)
+
+ap_regional_q <- st_transform(ap_regional_sf, crs(regional_sp))
+ap_regional_ppp <- as.ppp(st_coordinates(ap_regional_q), W=regional_window)
+
+ap_regional_Q20 <- quadratcount(ap_regional_ppp, nx=20, ny=20)
+ap_regional_distribution <- intensity(ap_regional_Q20, image=TRUE)
+
+mrt_regional_q <- st_transform(mrt_regional_sf, crs(regional_sp))
+mrt_regional_ppp <- as.ppp(st_coordinates(mrt_regional_q), W=regional_window)
+
+mrt_regional_Q20 <- quadratcount(mrt_regional_ppp, nx=20, ny=20)
+mrt_regional_distribution <- intensity(mrt_regional_Q20, image=TRUE)
+
+ann_observed <- mean(nndist(ap_regional_ppp, k=1))
+ann_observed
+
+n <- 1000 # number of simulations
+ann_mrt_density <- vector(length = n) # empty object to be used to store simulated ANN values
+for (i in 1:n) {
+  random_point <- rpoint(n = ap_regional_ppp$n, f = mrt_regional_distribution)
+  ann_mrt_density[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- regional_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+
+hist(ann_mrt_density, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_mrt_density))
+abline(v=ann_observed, col="blue")
+```
+
+
+
+```{r}
+
+ap_regional_q <- st_transform(ap_regional_sf, crs(regional_sp))
+ap_regional_ppp <- as.ppp(st_coordinates(ap_regional_q), W=regional_window)
+
+mrt_regional_q <- st_transform(mrt_regional_sf, crs(regional_sp))
+mrt_regional_ppp <- as.ppp(st_coordinates(mrt_regional_q), W=regional_window)
+
+mrt_regional_Q20 <- quadratcount(mrt_regional_ppp, nx=20, ny=20)
+mrt_regional_distribution <- intensity(mrt_regional_Q20, image=TRUE)
+
+plot(mrt_regional_distribution)
+
+
+r <- raster(ncol=1000, nrow=1000, xmn= -700525, xmx=-694504.7, ymn= 19842439, ymx=19847018.0)
+
+#Convert MRT exits with the same CRS as sg to an sp object
+mrt_regional_q_sp <- as(mrt_regional_q, "Spatial")
+
+#Get x and y coordinates from MRT exits
+mrt_regional_distances <- distanceFromPoints(object = r, xy=coordinates(mrt_regional_q_sp)[,1:2])
+plot(mrt_regional_distances)
+
+#Mask the distances_mrt raster with the shape of Singapore
+mrt_regional_distances <- mask(mrt_regional_distances, regional_sp)
+plot(mrt_regional_distances)
+plot(ap_regional_ppp, add = TRUE)
+#Convert distances_mrt from raster to im
+
+mrt_regional_distances_distribution <- as.im(mrt_regional_distances)
+plot(mrt_regional_distances_distribution)
+
+#Run monte carlo simulation for 1000 epochs
+n <- 1000 # number of simulations
+ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=mrt_regional_distances_distribution)
+  ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- regional_window
+plot(random_point)
+
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+
+hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
+abline(v=ann_observed, col="blue")
 ```
 
 
