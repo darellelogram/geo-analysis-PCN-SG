@@ -19,6 +19,7 @@ library(sf)
 library(raster)
 library(rgdal)
 library(spatstat)
+library(rgeos)
 ```
 
 ## Loading data
@@ -37,12 +38,17 @@ supermarkets_sf <- st_read("data/supermarkets.kml")
 hawkercentres_sf <- st_read("data/hawkercentre.kml")
 mrt_exits_sf <- st_read("data/lta-mrt-station-exit-kml.kml")
 pharmacy_sf <- st_read("data/registered_pharmacy.kml")
+parks <- st_read("data/parks-geojson.geojson")
+busstops_sf <- st_read("data/BusStop.shp")
+
 
 class(access_points_sf)
 class(supermarkets_sf)
 class(hawkercentres_sf)
 class(mrt_exits_sf)
 class(pharmacy_sf)
+class(parks)
+class(busstops_sf)
 ```
 ### Raster
 Next, we read in raster data, which consists of only population density data.
@@ -62,21 +68,50 @@ tmap_mode("view")
 
 tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+We also want to get a buffer of 500m around the PCN access points
+```{r}
+access_points_500buf <- st_buffer(access_points_sf, dist = 500)
+access_points_500buf <- st_union(access_points_500buf)
+```
 ## Plot various amenities over the PCN access points
-Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN acces points.
+Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points.
 ### Supermarkets
 We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets.
+
 ```{r}
 tmap_mode("view")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(supermarkets_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "skyblue") + tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(supermarkets_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "skyblue") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+# convert buffer from sfc to sf
+access_points_500buf_sf <- st_sf(access_points_500buf)
+# convert buffer and point to sp
+access_points_500buf_sp <- as_Spatial(access_points_500buf_sf)
+supermarkets_sp <- as_Spatial(supermarkets_sf)
+
+# count number of supermarkets within buffer
+nearby_supermarkets_count <- poly.counts(supermarkets_sp, access_points_500buf_sp)
+```
+```{r}
+# percentage of supermarkets within buffer
+nearby_supermarkets_count / 742 * 100
 ```
 ### Hawker centres
 For hawker centres, the correlation is not as obvious.
 ```{r}
 tmap_mode("view")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(hawkercentres_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(hawkercentres_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "green") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+hawkercentres_sp <- as_Spatial(hawkercentres_sf)
+
+# count number of supermarkets within buffer
+nearby_hawker_count <- poly.counts(hawkercentres_sp, access_points_500buf_sp)
+
+# percentage of supermarkets within buffer
+nearby_hawker_count / 125 * 100
 ```
 ### MRT exits
 For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation.
@@ -84,14 +119,68 @@ Unlike the MRT exits, we see that there are very few PCN access points in the Do
 ```{r}
 tmap_mode("view")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(mrt_exits_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "orange") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(mrt_exits_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "orange") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+```{r}
+mrt_exits_sp <- as_Spatial(mrt_exits_sf)
+
+# count number of supermarkets within buffer
+nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
+
+# percentage of supermarkets within buffer
+nearby_mrt_count / 474 * 100
+```
+
 ### Pharmacies
 For pharmacies, there doesn't seem to be a clear pattern.
 ```{r}
 tmap_mode("view")
 
-tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(pharmacy_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "purple") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(pharmacy_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "purple") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+pharmacy_sp <- as_Spatial(pharmacy_sf)
+
+# count number of supermarkets within buffer
+nearby_pharm_count <- poly.counts(pharmacy_sp, access_points_500buf_sp)
+
+# percentage of supermarkets within buffer
+nearby_pharm_count / 269 * 100
+```
+### Bus stops
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(busstops_sf) + tm_symbols(size = 0.1, alpha = 0.2, col = "blue") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+busstops_sp <- as_Spatial(busstops_sf)
+busstops_sp <- spTransform(busstops_sp, crs(access_points_500buf_sp))
+busstops_sp
+access_points_500buf_sp
+
+# count number of supermarkets within buffer
+nearby_busstops_count <- poly.counts(busstops_sp, access_points_500buf_sp)
+
+# percentage of supermarkets within buffer
+nearby_busstops_count / 5160 * 100
+```
+
+### Parks
+```{r}
+tmap_mode("view")
+
+tm_shape(planning_area_sf) + tm_text("Name", size=0.5) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_shape(parks) + tm_symbols(size = 0.1, alpha = 0.5, col = "pink") + tm_shape(access_points_500buf) + tm_borders("brown") + tm_layout(title="Cycling paths in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+park_sp <- as_Spatial(parks)
+# busstops_sp <- spTransform(busstops_sp, crs(access_points_500buf_sp))
+
+# count number of supermarkets within buffer
+nearby_parks_count <- poly.counts(park_sp, access_points_500buf_sp)
+
+# percentage of supermarkets within buffer
+nearby_parks_count / 350 * 100
 ```
 ### Population density
 Interestingly, areas with the highest population density (Serangoon, Hougang and the areas surrounding Paya Lebar) seem to be relatively underserved by acces points as compared to Western regions like Bukit Batok which has a much lower population density.
@@ -325,10 +414,6 @@ abline(v=ann_observed, col="blue")
 ```
 
 ## Parks
-```{r}
-parks <- st_read("data/parks-geojson.geojson")
-class(parks)
-```
 ```{r}
 parks2 <- st_transform(parks, crs(sg))
 ```
