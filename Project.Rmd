@@ -40,6 +40,7 @@ mrt_exits_sf <- st_read("data/MRTs/lta-mrt-station-exit-kml.kml")
 pharmacy_sf <- st_read("data/amenities/pharmacies/retail-pharmacy-locations-kml.kml")
 parks <- st_read("data/parks/parks-geojson.geojson")
 busstops_sf <- st_read("data/BusStop.shp")
+bike_racks <- st_read("data/lta-bicycle-rack/lta-bicycle-rack-geojson.geojson")
 
 
 class(access_points_sf)
@@ -49,6 +50,7 @@ class(mrt_exits_sf)
 class(pharmacy_sf)
 class(parks)
 class(busstops_sf)
+class(bike_racks)
 ```
 ### Raster
 Next, we read in raster data, which consists of only population density data.
@@ -280,7 +282,7 @@ tmap_mode("plot")
 
 tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
   tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
-  tm_shape(parks) + tm_symbols(size = 0.1, alpha = 0.5, col = "pink") + tm_add_legend(type="symbol", labels=c("parks"), col='pink') +
+  tm_shape(parks) + tm_symbols(size = 0.1, alpha = 0.5, col = "grey") + tm_add_legend(type="symbol", labels=c("parks"), col='grey') +
   tm_shape(access_points_500buf) + tm_borders("brown") + 
   tm_layout(title="PCAPs and parks", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
@@ -294,6 +296,34 @@ nearby_parks_count <- poly.counts(park_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_parks_count / 350 * 100
 ```
+### Bicycle racks
+```{r}
+tmap_mode("plot")
+
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_shape(bike_racks) + tm_symbols(size = 0.1, alpha = 0.5, col = "yellow") + tm_add_legend(type="symbol", labels=c("bicycle racks"), col='yellow') +
+  tm_shape(access_points_500buf) + tm_borders("brown") + 
+  tm_layout(title="PCAPs and bicycle racks", title.size = 0.65, title.position = c(0.02, "bottom"))
+```
+```{r}
+bikeracks_500buf <- st_buffer(bike_racks, dist = 500)
+bikeracks_500buf <- st_union(bikeracks_500buf)
+bikeracks_500buf <- as_Spatial(bikeracks_500buf)
+access_points_sp <- as_Spatial(access_points_sf)
+```
+
+```{r}
+near_bikeracks_count <- poly.counts(access_points_sp, bikeracks_500buf)
+near_bikeracks_count / 306 * 100
+```
+```{r}
+near_bikeracks_count
+access_points_sp
+```
+
+
+
 ### Population density
 Interestingly, areas with the highest population density (Serangoon, Hougang and the areas surrounding Paya Lebar) seem to be relatively underserved by acces points as compared to Western regions like Bukit Batok which has a much lower population density.
 
