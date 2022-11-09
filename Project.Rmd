@@ -27,7 +27,7 @@ library(spatstat)
 planning_area_sf <- st_read("data/town-councils/Planning_Area_Census2010.kml")
 sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg_combined <- gUnaryUnion(sg)
-sgclass(planning_area_sf)
+# sgclass(planning_area_sf)
 ```
 ### Points
 Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves.
@@ -60,6 +60,9 @@ pop_density
 First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
 ```{r}
 tmap_mode("plot")
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
+
+tmap_mode("view")
 tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 ## Plot various amenities over the PCN access points
@@ -214,7 +217,7 @@ plot(intensity(Qpop, image=TRUE), main=NULL, las=1, col=cl)
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
-# Monte Carlo Q20 (Shu Ling)
+# Density-based Monte Carlo (Shu Ling)
 ```{r}
 ann_observed <- mean(nndist(access_points_ppp, k=1))
 ann_observed
@@ -270,7 +273,9 @@ plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_mrt))
 abline(v=ann_observed, col="blue")
 ```
-# Interpolating using distance
+
+
+# Distance-based Monte Carlo
 ## MRT Exits
 First, we want to find the extent of sg
 ```{r}
@@ -352,18 +357,18 @@ parks2 <- st_transform(parks, crs(sg))
 parks_sp <- as(parks2, "Spatial")
 class(parks_sp)
 ```
-Get x and y coordinates from MRT exits
+Get x and y coordinates from parks
 ```{r}
 distances_parks <- distanceFromPoints(object = r, xy=coordinates(parks_sp)[,1:2])
 plot(distances_parks)
 ```
-Mask the distances_mrt raster with the shape of Singapore
+Mask the distances_parks raster with the shape of Singapore
 ```{r}
 distances_parks <- mask(distances_parks, sg)
 plot(distances_parks)
 plot(access_points_ppp, add = TRUE)
 ```
-Convert distances_mrt from raster to im
+Convert distances_parks from raster to im
 ```{r}
 class(distances_parks)
 distances_parks_im <- as.im(distances_parks)
@@ -510,6 +515,7 @@ kde_display<-function(arr){
 ```{r}
 kde_sf_data(access_points_sf)
 ```
+
 ```{r}
 kde_sf_data(supermarkets_sf)
 ```
