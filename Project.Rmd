@@ -255,7 +255,11 @@ busstops_500buf <- st_buffer(busstops_sf, dist = 500)
 busstops_500buf <- st_union(busstops_500buf)
 
 busstops_500buf_sf <- st_sf(busstops_500buf)
-busstops_500buf_sp <- as_Spatial(busstops_500buf_sf, proj)
+busstops_500buf_sp <- as_Spatial(busstops_500buf_sf)
+busstops_500buf_sp <- spTransform(busstops_500buf_sp, crs(access_points_sp))
+```
+```{r}
+
 # access_points_sp <- as_Spatial(access_points_sf)
 
 # count number of PCAPs within 500m of a supermarket
@@ -263,7 +267,7 @@ PCAPs_near_busstops <- poly.counts(access_points_sp, busstops_500buf_sp)
 
 print(PCAPs_near_busstops)
 print(dim(access_points_sf)[1])
-print(PCAPs_near_busstops / dim(access_points_sf)[1])s
+print(PCAPs_near_busstops / dim(access_points_sf)[1])
 ```
 #### DEBUG: try plotting
 ```{r}
@@ -296,6 +300,19 @@ nearby_parks_count <- poly.counts(park_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_parks_count / 350 * 100
 ```
+```{r}
+# reversed count
+parks_500buf <- st_buffer(parks, dist = 500)
+parks_500buf <- st_union(parks_500buf)
+parks_500buf_sp <- as_Spatial(parks_500buf)
+```
+```{r}
+PCAPs_near_parks <- poly.counts(access_points_sp, parks_500buf_sp)
+print(PCAPs_near_parks / dim(access_points_sf)[1])
+```
+
+
+
 ### Bicycle racks
 ```{r}
 tmap_mode("plot")
@@ -314,12 +331,11 @@ access_points_sp <- as_Spatial(access_points_sf)
 ```
 
 ```{r}
-near_bikeracks_count <- poly.counts(access_points_sp, bikeracks_500buf)
-near_bikeracks_count / 306 * 100
+PCAPs_near_bikeracks <- poly.counts(access_points_sp, bikeracks_500buf)
+PCAPs_near_bikeracks / 306 * 100
 ```
 ```{r}
-near_bikeracks_count
-access_points_sp
+print(PCAPs_near_bikeracks / dim(access_points_sf)[1])
 ```
 
 
@@ -398,7 +414,7 @@ plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```{r}
 # plot the density raster
 plot(intensity(Q20, image=TRUE), main=NULL, las=1)
-legend(add = TRUE, 'bottomright', inset=0.05, lty=0, title="point density", legend=seq(0, 6, 1))
+# legend(add = TRUE, 'bottomright', inset=0.05, lty=0, title="point density", legend=seq(0, 6, 1))
 
 # plot access points
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
