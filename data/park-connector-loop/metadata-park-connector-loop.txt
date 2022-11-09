@@ -1,0 +1,49 @@
+# Metadata for Park Connector Loop
+---
+Identifier: '3e7f282a-03e8-44ca-8a34-b02c8550e8f6'
+Name: 'park-connector-loop'
+Title: 'Park Connector Loop'
+Description: 'This dataset shows the indicative segments of the Park Connector Loop.
+  The Park Connector Loop are islandwide network of linear open spaces around major
+  residential areas, linking up parks and nature sites. An important part of Singapore''s
+  transformation into a City in a Garden, the Park Connector Loop brings you through
+  the lush greenery and natural splendour of our island, as well as a wide range of
+  exciting recreational activities.'
+Topics:
+  - 'Transport'
+Keywords:
+  - 'NParks'
+  - 'Park Connector'
+  - 'Park Connector Loops'
+  - 'Park Connector Network'
+  - 'onemap'
+  - 'themes'
+Publisher:
+  Name: 'National Parks Board'
+  Admin 1:
+    Name: 'Margaret Cheong'
+    Department: 'NATIONAL PARKS BOARD'
+    Email: 'Margaret_CHEONG@nparks.gov.sg'
+  Admin 2:
+    Name: 'Kellie Tan'
+    Department: 'NATIONAL PARKS BOARD'
+    Email: 'Kellie_TAN@nparks.gov.sg'
+Sources:
+  - 'National Parks Board'
+License: 'https://data.gov.sg/open-data-licence'
+Frequency: 'Ad-hoc'
+Last Updated: '2022-10-31T07:56:09.405112'
+Resources:
+  -
+    Identifier: 'f2cd1242-4695-4b06-b4c7-385029d86cdc'
+    Name: 'park-connector-loop.kml'
+    Title: 'Park Connector Loop'
+    Url: 'https://data.gov.sg/dataset/3e7f282a-03e8-44ca-8a34-b02c8550e8f6/resource/f2cd1242-4695-4b06-b4c7-385029d86cdc/download/park-connector-loop.kml'
+    Format: 'KML'
+    Description: 'This dataset shows the indicative segments of the Park Connector
+      Loop. The Park Connector Loop are islandwide network of linear open spaces around
+      major residential areas, linking up parks and nature sites. An important part
+      of Singapore''s transformation into a City in a Garden, the Park Connector Loop
+      brings you through the lush greenery and natural splendour of our island, as
+      well as a wide range of exciting recreational activities.'
+    Last Updated: '2022-10-31T07:54:56.750951'
