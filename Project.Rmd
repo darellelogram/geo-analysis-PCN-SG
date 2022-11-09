@@ -624,6 +624,10 @@ Get x and y coordinates from MRT exits
 distances_mrt <- distanceFromPoints(object = r, xy=coordinates(mrt_exits_q_sp)[,1:2])
 plot(distances_mrt)
 ```
+```{r}
+coordinates(mrt_exits_q_sp)[,1:2]
+```
+
 Mask the distances_mrt raster with the shape of Singapore
 ```{r}
 distances_mrt <- mask(distances_mrt, sg)
@@ -699,6 +703,10 @@ parks2 <- st_transform(parks, crs(sg))
 parks_sp <- as(parks2, "Spatial")
 class(parks_sp)
 ```
+```{r}
+coordinates(parks_sp)[,1:2]
+```
+
 Get x and y coordinates from parks
 ```{r}
 distances_parks <- distanceFromPoints(object = r, xy=coordinates(parks_sp)[,1:2])
@@ -743,6 +751,98 @@ hist(ann_distances_parks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(
 abline(v=ann_observed, col="blue")
 ```
 
+### Bus stops
+
+```{r}
+busstops_mc <- spTransform(busstops_sp, crs(sg))
+```
+```{r}
+class(busstops_mc)
+coordinates(busstops_mc)
+```
+Get x and y coordinates from parks
+```{r}
+distances_busstops <- distanceFromPoints(object = r, xy=coordinates(busstops_mc))
+plot(distances_busstops)
+```
+Mask the distances_parks raster with the shape of Singapore
+```{r}
+distances_busstops <- mask(distances_busstops, sg)
+plot(distances_parks)
+plot(access_points_ppp, add = TRUE)
+```
+Convert distances_parks from raster to im
+```{r}
+class(distances_busstops)
+distances_busstops_im <- as.im(distances_busstops)
+class(distances_busstops_im)
+```
+
+Run monte carlo simulation for 1000 epochs
+```{r}
+n <- 1000 # number of simulations
+ann_distances_busstops <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=distances_busstops_im)
+  ann_distances_busstops[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_busstops)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+```{r}
+hist(ann_distances_busstops, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_busstops))
+abline(v=ann_observed, col="blue")
+```
+
+### Bicycle racks
+
+```{r}
+bike_racks_sp <- as_Spatial(bike_racks)
+bikeracks_mc <- spTransform(bike_racks_sp, crs(sg))
+```
+```{r}
+class(bikeracks_mc)
+coordinates(bikeracks_mc)[,1:2]
+```
+Get x and y coordinates from parks
+```{r}
+distances_bikeracks <- distanceFromPoints(object = r, xy=coordinates(bikeracks_mc)[,1:2])
+plot(distances_bikeracks)
+```
+Mask the distances_parks raster with the shape of Singapore
+```{r}
+distances_bikeracks <- mask(distances_bikeracks, sg)
+plot(distances_bikeracks)
+plot(access_points_ppp, add = TRUE)
+```
+Convert distances_parks from raster to im
+```{r}
+class(distances_bikeracks)
+distances_bikeracks_im <- as.im(distances_bikeracks)
+class(distances_bikeracks_im)
+```
+
+Run monte carlo simulation for 1000 epochs
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=distances_bikeracks_im)
+  ann_distances_bikeracks[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+```{r}
+hist(ann_distances_bikeracks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_bikeracks))
+abline(v=ann_observed, col="blue")
+```
 
 ## Zooming in on certain Regions - continue with Distance-based
 ### Filtering points per region
@@ -851,6 +951,38 @@ plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
 abline(v=ann_observed, col="blue")
 ```
+
+# Insights
+```{r}
+pcn_loops <- st_read("data/park-connector-loop/park-connector-loop.kml")
+unique(pcn_loops$Name)
+```
+```{r}
+
+```
+
+
+
+```{r}
+access_pts <- st_read("data/PCNs/PCN_Access_Points.geojson")
+unique(access_pts$name)
+```
+```{r}
+northern_explorer_loop <- access_pts[access_pts$name %in% c("Marsiling Park Connector", "Woodlands Park Connector", "Mandai Park Connector", "Khatib Bongsu Park Connector", "Yishun Park Connector", "Canberra-Sembawang Park Connector", "Admiralty West Park Connector", "Springleaf Park Connector"),]
+
+eastern_coastal_loop <- access_pts[access_pts$name %in% c("Bedok Park Connector", "Geylang Park Connector", "Tampines Park Connector", "Pasir Ris Park Connector", "Loyang Park Connector", "Coastal Park Connector", "Tampines-Loyang Park Connector", "Siglap Park Connector", ),]
+
+central_urban_loop <- access_pts[access_pts$name %in% c("Ang Mo Kio Avenue 5 Park Connector", "Kallang Park Connector", "Serangoon Park Connector", "Jalan Pelikat Park Connector", "Whampoa Park Connector", "Ang Mo Kio Park Connector", "Pelton Canal Park Connector"),]
+  
+north_eastern_riverine_loop <- access_pts[access_pts$name %in% c(),]
+
+south_ridges_loop <- access_pts[access_pts$name %in% c("Alexandra Park Connector", "Ulu Pandan Park Connector", "Pandan Gardens Park Connector", "West Coast Park Connector", "Alexandra Garden Trail"),]
+
+western_adventure_loop <- access_pts[access_pts$name %in% c("Jurong Park Connector", "Jurong West Park Connector", "Choa Chu Kang North Park Connector", "Choa Chu Kang Park Connector", "Bukit Batok Park Connector", "Bukit Batok West Park Connector", "Hillview Park Connector", "Bukit Timah Park Connector"),]
+```
+
+
+
 
 
 
