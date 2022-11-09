@@ -79,7 +79,7 @@ access_points_500buf <- st_union(access_points_500buf)
 Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points.
 ### Supermarkets
 We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets.
-
+#### Plot just the points
 ```{r}
 tmap_mode("plot")
 
@@ -89,6 +89,8 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") +
   tm_layout(title="PCAPs and supermarkets", title.size = 0.65, title.position = c(0.02, "bottom"), legend.show=TRUE, legend.outside=FALSE, legend.text.size=0.7) 
 ```
+
+#### Plot the points with 500m buffer
 ```{r}
 # convert buffer from sfc to sf
 access_points_500buf_sf <- st_sf(access_points_500buf)
@@ -99,10 +101,29 @@ supermarkets_sp <- as_Spatial(supermarkets_sf)
 # count number of supermarkets within buffer
 nearby_supermarkets_count <- poly.counts(supermarkets_sp, access_points_500buf_sp)
 ```
+
 ```{r}
 # percentage of supermarkets within buffer
 nearby_supermarkets_count / 742 * 100
 ```
+#### reverse: get number of PCAPs within 500m of a supermarket
+```{r}
+supermarkets_500buf <- st_buffer(supermarkets_sf, dist = 500)
+supermarkets_500buf <- st_union(supermarkets_500buf)
+
+supermarkets_500buf_sf <- st_sf(supermarkets_500buf)
+supermarkets_500buf_sp <- as_Spatial(supermarkets_500buf_sf)
+access_points_sp <- as_Spatial(access_points_sf)
+
+# count number of PCAPs within 500m of a supermarket
+PCAPs_near_supermarkets <- poly.counts(access_points_sp, supermarkets_500buf_sp)
+
+print(PCAPs_near_supermarkets)
+print(dim(access_points_sf)[1])
+print(PCAPs_near_supermarkets / dim(access_points_sf)[1])
+```
+
+
 ### Hawker centres
 For hawker centres, the correlation is not as obvious.
 ```{r}
@@ -113,6 +134,7 @@ tm_shape(sg_combined)+ tm_borders() + tmap_options(check.and.fix = TRUE) + tm_sh
   tm_shape(access_points_500buf) + tm_borders("brown") +
   tm_layout(title="PCAPs and Hawker Centres", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 ```{r}
 hawkercentres_sp <- as_Spatial(hawkercentres_sf)
 
@@ -122,6 +144,24 @@ nearby_hawker_count <- poly.counts(hawkercentres_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_hawker_count / 125 * 100
 ```
+
+#### reverse
+```{r}
+hawkercentres_500buf <- st_buffer(hawkercentres_sf, dist = 500)
+hawkercentres_500buf <- st_union(hawkercentres_500buf)
+
+hawkercentres_500buf_sf <- st_sf(hawkercentres_500buf)
+hawkercentres_500buf_sp <- as_Spatial(hawkercentres_500buf_sf)
+access_points_sp <- as_Spatial(access_points_sf)
+
+# count number of PCAPs within 500m of a supermarket
+PCAPs_near_hawkercentres <- poly.counts(access_points_sp, hawkercentres_500buf_sp)
+
+print(PCAPs_near_hawkercentres)
+print(dim(access_points_sf)[1])
+print(PCAPs_near_hawkercentres / dim(access_points_sf)[1])
+```
+
 ### MRT exits
 For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation.
 Unlike the MRT exits, we see that there are very few PCN access points in the Downtown Core area. This could be because of the lower priority assigned to cycling paths over mass rapid transit in a space-scarce area like the Downtown Core.
@@ -134,6 +174,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") +
   tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 ```{r}
 mrt_exits_sp <- as_Spatial(mrt_exits_sf)
 
@@ -143,6 +184,24 @@ nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_mrt_count / 474 * 100
 ```
+
+#### reverse
+```{r}
+mrt_exits_500buf <- st_buffer(mrt_exits_sf, dist = 500)
+mrt_exits_500buf <- st_union(mrt_exits_500buf)
+
+mrt_exits_500buf_sf <- st_sf(mrt_exits_500buf)
+mrt_exits_500buf_sp <- as_Spatial(mrt_exits_500buf_sf)
+access_points_sp <- as_Spatial(access_points_sf)
+
+# count number of PCAPs within 500m of a supermarket
+PCAPs_near_mrt_exits <- poly.counts(access_points_sp, mrt_exits_500buf_sp)
+
+print(PCAPs_near_mrt_exits)
+print(dim(access_points_sf)[1])
+print(PCAPs_near_mrt_exits / dim(access_points_sf)[1])
+```
+
 ### Pharmacies
 For pharmacies, there doesn't seem to be a clear pattern.
 ```{r}
@@ -154,6 +213,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") +
   tm_layout(title="PCAPs and pharmacies", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 ```{r}
 pharmacy_sp <- as_Spatial(pharmacy_sf)
 
@@ -173,6 +233,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") + 
   tm_layout(title="PCAPs and bus stops", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 ```{r}
 busstops_sp <- as_Spatial(busstops_sf)
 busstops_sp <- spTransform(busstops_sp, crs(access_points_500buf_sp))
@@ -184,6 +245,33 @@ nearby_busstops_count <- poly.counts(busstops_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
 nearby_busstops_count / 5160 * 100
+```
+
+#### reverse
+```{r}
+busstops_500buf <- st_buffer(busstops_sf, dist = 500)
+busstops_500buf <- st_union(busstops_500buf)
+
+busstops_500buf_sf <- st_sf(busstops_500buf)
+busstops_500buf_sp <- as_Spatial(busstops_500buf_sf, proj)
+# access_points_sp <- as_Spatial(access_points_sf)
+
+# count number of PCAPs within 500m of a supermarket
+PCAPs_near_busstops <- poly.counts(access_points_sp, busstops_500buf_sp)
+
+print(PCAPs_near_busstops)
+print(dim(access_points_sf)[1])
+print(PCAPs_near_busstops / dim(access_points_sf)[1])s
+```
+#### DEBUG: try plotting
+```{r}
+tmap_mode("plot")
+
+tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + 
+  tm_shape(busstops_sf) + tm_symbols(size = 0.1, alpha = 0.2, col = "blue") + tm_add_legend(type="symbol", labels=c("bus stops"), col='blue') +
+  tm_shape(busstops_500buf_sf) + tm_borders("darkblue") + 
+  tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
+  tm_layout(title="PCAPs and bus stops", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
 
 ### Parks
