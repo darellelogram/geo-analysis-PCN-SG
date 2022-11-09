@@ -9,8 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Setting up
-
+# Setting up
 ```{r pressure, echo=FALSE, warning=FALSE, error=FALSE}
 library(GISTools)
 library(tmap)
@@ -20,6 +19,10 @@ library(raster)
 library(rgdal)
 library(spatstat)
 library(rgeos)
+```
+## Set seed
+```{r}
+set.seed(42)
 ```
 
 ## Loading data
@@ -62,8 +65,9 @@ GDALinfo("data/population-density/popmap15adj.tif")
 pop_density <- raster("data/population-density/popmap15adj.tif")
 pop_density
 ```
-## Exploratory Data Analysis
-### Park Connectors
+
+# Exploratory Data Analysis
+## Park Connectors
 First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
 ```{r}
 tmap_mode("plot")
@@ -147,7 +151,7 @@ nearby_hawker_count <- poly.counts(hawkercentres_sp, access_points_500buf_sp)
 nearby_hawker_count / 125 * 100
 ```
 
-#### reverse
+#### reverse - hawker centre buffers
 ```{r}
 hawkercentres_500buf <- st_buffer(hawkercentres_sf, dist = 500)
 hawkercentres_500buf <- st_union(hawkercentres_500buf)
@@ -187,7 +191,7 @@ nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
 nearby_mrt_count / 474 * 100
 ```
 
-#### reverse
+#### reverse - mrt exit buffers
 ```{r}
 mrt_exits_500buf <- st_buffer(mrt_exits_sf, dist = 500)
 mrt_exits_500buf <- st_union(mrt_exits_500buf)
@@ -248,8 +252,7 @@ nearby_busstops_count <- poly.counts(busstops_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_busstops_count / 5160 * 100
 ```
-
-#### reverse
+#### reverse - bus stop buffers
 ```{r}
 busstops_500buf <- st_buffer(busstops_sf, dist = 500)
 busstops_500buf <- st_union(busstops_500buf)
@@ -290,6 +293,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") + 
   tm_layout(title="PCAPs and parks", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 ```{r}
 park_sp <- as_Spatial(parks)
 # busstops_sp <- spTransform(busstops_sp, crs(access_points_500buf_sp))
@@ -306,12 +310,11 @@ parks_500buf <- st_buffer(parks, dist = 500)
 parks_500buf <- st_union(parks_500buf)
 parks_500buf_sp <- as_Spatial(parks_500buf)
 ```
+#### reverse - parks buffer
 ```{r}
 PCAPs_near_parks <- poly.counts(access_points_sp, parks_500buf_sp)
 print(PCAPs_near_parks / dim(access_points_sf)[1])
 ```
-
-
 
 ### Bicycle racks
 ```{r}
@@ -323,6 +326,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") + 
   tm_layout(title="PCAPs and bicycle racks", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+#### reverse - bicycle racks buffer
 ```{r}
 bikeracks_500buf <- st_buffer(bike_racks, dist = 500)
 bikeracks_500buf <- st_union(bikeracks_500buf)
@@ -334,6 +338,7 @@ access_points_sp <- as_Spatial(access_points_sf)
 PCAPs_near_bikeracks <- poly.counts(access_points_sp, bikeracks_500buf)
 PCAPs_near_bikeracks / 306 * 100
 ```
+
 ```{r}
 print(PCAPs_near_bikeracks / dim(access_points_sf)[1])
 ```
@@ -353,20 +358,24 @@ tm_shape(pop_density, bbox=st_bbox(sg_combined)) + tm_raster(title="Population D
   tm_layout(title="PCAPs and Population Density", title.size = 0.65, title.position = c(0.02, "bottom"), legend.position=c("right", "bottom"))
 ```
 
-## Extracting planning areas to observe
+# Spatial Analysis
+## Global Density
+### Extracting planning areas to observe
 ```{r, echo=FALSE, }
 training_sf <- planning_area_sf[planning_area_sf$Name %in% c("YISHUN","JURONG EAST", "JURONG WEST", "TAMPINES", "PASIR RIS", "BEDOK"),]
 # training_sf
 ```
-## Calculating global density
+### Calculating global density
 ```{r}
 sg_area <- 728.6 #km2
-supermarkets_gd <- 742 / sg_area
-hawkercentres_gd <- 125 / sg_area
-mrt_exits_gd <- 474 / sg_area
-pharmacy_gd <- 269 / sg_area
+supermarkets_gd <- dim(supermarkets_sf)[1] / sg_area
+hawkercentres_gd <- dim(hawkercentres_sf)[1] / sg_area
+mrt_exits_gd <- dim(mrt_exits_sf)[1]/ sg_area
+pharmacy_gd <- dim(pharmacy_sf)[1]/ sg_area
 ```
-## Quadrat density
+
+## Local Density
+### Quadrat Density
 ```{r}
 sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg
@@ -420,7 +429,75 @@ plot(intensity(Q20, image=TRUE), main=NULL, las=1)
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
-## Quadrat density based on population density
+### KDE functions
+```{r}
+library(jsonlite)
+library(splitstackshape)
+library(sp)
+library(leaflet)
+library(data.table)
+library(KernSmooth)
+library(maptools)
+library(rgdal)
+
+kde_jsonlist_data<-function(list){
+  dt<-data.table()
+  for (str in list){
+    data = fromJSON(str)
+    latlng = data.frame(ll=data[["SrchResults"]][["LatLng"]])
+    data_coords<-data.frame(cSplit(latlng,'ll',','))[-1,] 
+    data_coords <- data_coords[, c(2, 1)]
+    setDT(data_coords)
+    dt <-rbindlist(list(dt,data_coords), use.names=TRUE)
+  }
+  kde_display(dt)
+}
+
+kde_sf_data<-function(sf){
+  sf_coords<-st_coordinates(sf)
+  kde_display(sf_coords)
+}
+
+tmap
+
+##Renders heatmap based on calculated KDE
+kde_display<-function(arr){
+  kde <- bkde2D(arr,bandwidth=c(0.005, 0.003), gridsize = c(1000,1000))
+  KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
+  KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 30)] <- NA
+  palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
+  
+  leaflet() %>% addTiles() %>% 
+    addRasterImage(KernelDensityRaster, 
+                   colors = palRaster, 
+                   opacity = .8) %>%
+    addLegend(pal = palRaster, 
+              values = KernelDensityRaster@data@values, 
+              title = "Kernel Density")
+}
+```
+
+#### Plotting KDEs for ESDA
+```{r}
+kde_sf_data(access_points_sf)
+```
+
+```{r}
+kde_sf_data(supermarkets_sf)
+```
+```{r}
+kde_sf_data(hawkercentres_sf)
+```
+```{r}
+kde_sf_data(pharmacy_sf)
+```
+```{r}
+amenities_list<-c("data\\amenities\\others\\exercisefacilities.json","data\\amenities\\others\\libraries.json","data\\amenities\\others\\preschools_location.json","data\\amenities\\others\\communityclubs.json")
+kde_jsonlist_data(amenities_list)
+```
+
+
+#### Quadrat density - based on population density
 ```{r}
 pop_density_q <- projectRaster(pop_density, crs = crs(sg))
 
@@ -449,12 +526,14 @@ plot(intensity(Qpop, image=TRUE), main=NULL, las=1, col=cl)
 plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
-# Density-based Monte Carlo (Shu Ling)
+## Density-based Analysis (Monte Carlo)
+### get baseline ANN value
 ```{r}
 ann_observed <- mean(nndist(access_points_ppp, k=1))
 ann_observed
+ann_observed_k2 <- mean(nndist(access_points_ppp, k=2))
 ```
-## Population density
+### Population density
 ```{r}
 n <- 1000 # number of simulations
 ann_pop <- vector(length = n) # empty object to be used to store simulated ANN values
@@ -468,12 +547,20 @@ for (i in 1:n) {
 Window(random_point) <- sg_window
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 ```
+
 ```{r}
+pval_pop = sum(ann_observed > ann_pop)
+mean_ann_pop <- mean(ann_pop)
+sd_ann_pop <- sd(ann_pop)
+print(paste('p-value based on population density',pval_pop))
+print(paste('mean ANN dist on population density', mean_ann_pop))
+print(paste('sd of ANN dist on population density', sd_ann_pop))
+
 hist(ann_pop, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_pop))
 abline(v=ann_observed, col="blue")
 ```
 
-## MRT exits
+### MRT exits
 ```{r}
 # convert crs of access_points_sf to crs of sg
 mrt_exits_q <- st_transform(mrt_exits_sf, crs(sg))
@@ -483,6 +570,7 @@ mrt_exits_ppp <- as.ppp(st_coordinates(mrt_exits_q), W=sg_window)
 MRT_Qpop0 <- quadratcount(mrt_exits_ppp, nx=20, ny=20)
 plot(MRT_Qpop0)
 ```
+
 ```{r}
 MRT_density20 <- intensity(MRT_Qpop0, image=TRUE)
 plot(MRT_density20)
@@ -503,20 +591,28 @@ plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 ```
 
 ```{r}
+pval_mrt = sum(ann_observed > ann_mrt)
+mean_ann_mrt <- mean(ann_mrt)
+sd_ann_mrt <- sd(ann_mrt)
+print(paste('p-value for MRT exits:', pval_mrt))
+print(paste('mean ANN distance on MRT exit density:', mean_ann_mrt))
+print(paste('SD of ANN distance on MRT exit density:', sd_ann_mrt))
 hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_mrt))
 abline(v=ann_observed, col="blue")
 ```
 
 
-# Distance-based Monte Carlo
-## MRT Exits
+
+## Distance-based Analysis  (Monte Carlo)
+### MRT Exits
 First, we want to find the extent of sg
 ```{r}
 sg
 ```
 Create a raster using the extent of Singapore
 ```{r}
-r <- raster(ncol=1000, nrow=1000, xmn= 2637.869, xmx=56396.44, ymn=15748.72, ymx=50256.33)
+# r <- raster(ncol=1000, nrow=1000, xmn= 2637.869, xmx=56396.44, ymn=15748.72, ymx=50256.33)
+r <- raster(ncol=1000, nrow=1000, xmn= sg@bbox['x','min'], xmx=sg@bbox['x','max'], ymn=sg@bbox['y','min'], ymx=sg@bbox['y','max'])
 ```
 Convert MRT exits with the same CRS as sg to an sp object
 ```{r}
@@ -560,32 +656,49 @@ plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
 
 ```{r}
+pval_dist_mrt = sum(ann_observed > ann_distances_mrt)
+mean_ann_dist_mrt = mean(ann_distances_mrt)
+sd_ann_dist_mrt = sd(ann_distances_mrt)
+print(paste('p-value on distance to MRT exits:', pval_dist_mrt))
+print(paste('mean ANN on distance to MRT exits:', mean_ann_dist_mrt))
+print(paste('SD of ANN on distance to MRT exits:', sd_ann_dist_mrt))
+
 hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
 abline(v=ann_observed, col="blue")
 ```
-
+#### Try with k=2
 ```{r}
 n <- 1000 # number of simulations
-ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+ann_distances_mrt2 <- vector(length = n) # empty object to be used to store simulated ANN values
 
 for (i in 1:n) {
   random_point <- rpoint(n=access_points_ppp$n, f=distances_mrt_im)
-  ann_distances_mrt[i] <- mean(nndist(random_point, k=2))
+  ann_distances_mrt2[i] <- mean(nndist(random_point, k=2))
 }
 
 Window(random_point) <- sg_window
 plot(distances_mrt)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
-```{r}
-hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
-abline(v=ann_observed, col="blue")
-```
 
-## Parks
+```{r}
+pval_dist_mrt2 <- sum(ann_observed_k2 > ann_distances_mrt2)
+mean_ann_dist_mrt2 <- mean(ann_distances_mrt2)
+sd_ann_dist_mrt2 <- sd(ann_distances_mrt2)
+print(paste('p-value on distance to MRT exits, k=2,', pval_dist_mrt2))
+print(paste('mean ANN on distance to MRT exits, k=2,', mean_ann_dist_mrt2))
+print(paste('SD of ANN on distance to MRT exits, k=2', sd_ann_dist_mrt2))
+print(pval_dist_mrt2)
+hist(ann_distances_mrt2, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed_k2, ann_distances_mrt2))
+abline(v=ann_observed_k2, col="blue")
+```
+Even less significant when taking the two nearest neighbours for mrt exits.
+
+### Parks
 ```{r}
 parks2 <- st_transform(parks, crs(sg))
 ```
+
 ```{r}
 parks_sp <- as(parks2, "Spatial")
 class(parks_sp)
@@ -612,7 +725,7 @@ distances_parks_im <- as.im(distances_parks)
 class(distances_parks)
 ```
 
-Run monte carlo simulation for 1000 epochs
+Run Monte Carlo simulation for 1000 epochs
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_parks <- vector(length = n) # empty object to be used to store simulated ANN values
@@ -626,7 +739,14 @@ Window(random_point) <- sg_window
 plot(distances_parks)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
+pval_dist_parks <- sum(ann_observed > ann_distances_parks)
+mean_ann_dist_parks <- mean(ann_distances_parks)
+sd_ann_dist_parks <- sd(ann_distances_parks)
+print(paste('p-value for distance to parks:', pval_dist_parks))
+print(paste('mean ANN on distance to parks:', mean_ann_dist_parks))
+print(paste('SD for ANN on distance to parks:', sd_ann_dist_parks))
 hist(ann_distances_parks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_parks))
 abline(v=ann_observed, col="blue")
 ```
@@ -724,143 +844,8 @@ hist(ann_distances_bikeracks, main=NULL, las=1, breaks=40, col="bisque", xlim=ra
 abline(v=ann_observed, col="blue")
 ```
 
-## Markov Chain
-```{r}
-library(rgdal)
-library(maptools)
-library(raster)
-n <- 500
-ann.r <- vector(length=n)
-
-for (i in 1:n) {
-  rand.p <- rpoint(n=length(access_points_q), f=Q20)
-  ann.r[i] <- mean(nndist(rand.p, k=1))
-}
-
-## try with nsim argument
-rpoint(n=length(access_points_q), f=Qpop0_tess_im, nsim=1)
-
-Window(rand.p) <- ma.km
-plot(rand.p, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
-```
-
-
-# Global Raster function for distance heatmap
-## Try with MRT station data (Polygons) instead of MRT station exits data (Points) -> less duplication
-## Import MRT station data
-```{r}
-# NOTE: each MRT is represented by a polygon
-# mrt_sf <- st_read('data/master-plan-2019-rail-station-layer-kml.kml')
-mrt_sf <- st_read('data/master-plan-2019-rail-station-layer-kml.geojson')
-# remove NAs
-mrt_sf <- mrt_sf[!is.na(mrt_sf$NAME),]
-# remove useless columns
-mrt_sf <- mrt_sf[,!names(mrt_sf) %in% c('id', 'name', 'description', 'INC_CRC', 'FMEL_UPD_D')]
-plot(mrt_sf['geometry'])
-```
-
-
-## Convert MRT stations to raster data
-```{r}
-library(tidyverse)
-library(sf)
-library(raster)
-# need to define the extent of Singapore's boundaries first?
-# what resolution to use?
-
-#https://gis.stackexchange.com/questions/407991/convert-sf-data-frame-to-raster-in-r
-library(stars)
-
-mrt_raster <- st_rasterize(mrt_sf %>% dplyr::select(geometry))
-plot(mrt_raster, axes=TRUE)
-
-# change continuous values to either 1s or NAs
-print(mrt_raster[["ID"]][!is.na(mrt_raster[["ID"]])])
-mrt_raster_1s <- raster(mrt_raster[["ID"]])
-mrt_raster_1s[!is.na(mrt_raster_1s)] = 1
-print(mrt_raster_1s[!is.na(mrt_raster_1s)])
-plot(mrt_raster_1s, col='black')
-```
-
-
-## Call global raster function to generate distance heat map
-```{r}
-mrt.1s.d <- distance(mrt_raster_1s)
-
-# plot distance heat map over MRT stations
-tm_shape(mrt.1s.d) + tm_raster(palette="Greens", style="order", title="Distance") +
-  tm_legend(outside=TRUE, text.size=.8) +
-  tm_shape(mrt_raster_1s) + tm_raster(palette="red", title="Points")
-```
-
-### KDE functions
-```{r}
-library(jsonlite)
-library(splitstackshape)
-library(sp)
-library(leaflet)
-library(data.table)
-library(KernSmooth)
-library(maptools)
-library(rgdal)
-
-kde_jsonlist_data<-function(list){
-  dt<-data.table()
-  for (str in list){
-    data = fromJSON(str)
-    latlng = data.frame(ll=data[["SrchResults"]][["LatLng"]])
-    data_coords<-data.frame(cSplit(latlng,'ll',','))[-1,] 
-    data_coords <- data_coords[, c(2, 1)]
-    setDT(data_coords)
-    dt <-rbindlist(list(dt,data_coords), use.names=TRUE)
-  }
-  kde_display(dt)
-}
-
-kde_sf_data<-function(sf){
-  sf_coords<-st_coordinates(sf)
-  kde_display(sf_coords)
-}
-
-tmap
-
-##Renders heatmap based on calculated KDE
-kde_display<-function(arr){
-  kde <- bkde2D(arr,bandwidth=c(0.005, 0.003), gridsize = c(1000,1000))
-  KernelDensityRaster <- raster(list(x=kde$x1 ,y=kde$x2 ,z = kde$fhat))
-  KernelDensityRaster@data@values[which(KernelDensityRaster@data@values < 30)] <- NA
-  palRaster <- colorNumeric("Spectral", domain = KernelDensityRaster@data@values, na.color = "transparent")
-  
-  leaflet() %>% addTiles() %>% 
-    addRasterImage(KernelDensityRaster, 
-                   colors = palRaster, 
-                   opacity = .8) %>%
-    addLegend(pal = palRaster, 
-              values = KernelDensityRaster@data@values, 
-              title = "Kernel Density")
-}
-```
-
-#Plotting KDEs for ESDA
-```{r}
-kde_sf_data(access_points_sf)
-```
-
-```{r}
-kde_sf_data(supermarkets_sf)
-```
-```{r}
-kde_sf_data(hawkercentres_sf)
-```
-```{r}
-kde_sf_data(pharmacy_sf)
-```
-```{r}
-amenities_list<-c("data\\amenities\\others\\exercisefacilities.json","data\\amenities\\others\\libraries.json","data\\amenities\\others\\preschools_location.json","data\\amenities\\others\\communityclubs.json")
-kde_jsonlist_data(amenities_list)
-```
-
-##Filtering points per region
+## Zooming in on certain Regions - continue with Distance-based
+### Filtering points per region
 ```{r}
 library(sf)
 library(tmap)
