@@ -188,7 +188,7 @@ mrt_exits_sp <- as_Spatial(mrt_exits_sf)
 nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_mrt_count / 474 * 100
+nearby_mrt_count / dim(mrt_exits_sf)[1] #474 * 100
 ```
 
 #### reverse - mrt exit buffers
@@ -227,7 +227,7 @@ pharmacy_sp <- as_Spatial(pharmacy_sf)
 nearby_pharm_count <- poly.counts(pharmacy_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_pharm_count / 269 * 100
+nearby_pharm_count / dim(pharmacy_sf)[1] #269 * 100
 ```
 ### Bus stops
 ```{r}
@@ -250,7 +250,7 @@ access_points_500buf_sp
 nearby_busstops_count <- poly.counts(busstops_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_busstops_count / 5160 * 100
+nearby_busstops_count / dim(busstops_sf)[1] #5160 * 100
 ```
 #### reverse - bus stop buffers
 ```{r}
@@ -548,6 +548,19 @@ Window(random_point) <- sg_window
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 ```
 
+#### generate 6 random plots
+```{r}
+n <- 6 # number of simulations
+pop_density_im <- as.im(pop_density_q) # convert population density to im object
+Window(random_point) <- sg_window
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=pop_density_im)
+  plot(random_point)
+}
+
+```
+
 ```{r}
 pval_pop = sum(ann_observed > ann_pop)
 mean_ann_pop <- mean(ann_pop)
@@ -590,6 +603,7 @@ Window(random_point) <- sg_window
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
 ```
 
+
 ```{r}
 pval_mrt = sum(ann_observed > ann_mrt)
 mean_ann_mrt <- mean(ann_mrt)
@@ -602,6 +616,47 @@ abline(v=ann_observed, col="blue")
 ```
 
 
+
+### Bus stops
+```{r}
+# convert crs of access_points_sf to crs of sg
+busstops_q <- st_transform(busstops_sf, crs(sg))
+# convert sf to ppp
+busstops_ppp <- as.ppp(st_coordinates(busstops_q), W=sg_window)
+
+busstop_Qpop0 <- quadratcount(busstops_ppp, nx=20, ny=20)
+plot(busstop_Qpop0)
+```
+
+```{r}
+busstop_density20 <- intensity(busstop_Qpop0, image=TRUE)
+plot(busstop_density20)
+class(busstop_density20)
+```
+
+```{r}
+n <- 1000 # number of simulations
+ann_busstop <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=busstop_density20)
+  ann_busstop[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+
+```{r}
+pval_mrt = sum(ann_observed > ann_busstop)
+mean_ann_busstop <- mean(ann_busstop)
+sd_ann_busstop <- sd(ann_busstop)
+print(paste('p-value for bus stops:', pval_mrt))
+print(paste('mean ANN on bus stop density:', mean_ann_busstop))
+print(paste('SD of ANN distance on bus stop density:', sd_ann_busstop))
+hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_busstop))
+abline(v=ann_observed, col="blue")
+```
 
 ## Distance-based Analysis  (Monte Carlo)
 ### MRT Exits
@@ -644,9 +699,9 @@ Run monte carlo simulation for 1000 epochs
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_mrt_im = -distances_mrt_im + max(distances_mrt_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_mrt_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_mrt_im)
   ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -654,6 +709,7 @@ Window(random_point) <- sg_window
 plot(distances_mrt)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 
 ```{r}
 pval_dist_mrt = sum(ann_observed > ann_distances_mrt)
@@ -729,9 +785,9 @@ Run Monte Carlo simulation for 1000 epochs
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_parks <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_parks_im = -distances_parks_im + max(distances_parks_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_parks_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_parks_im)
   ann_distances_parks[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -752,10 +808,10 @@ abline(v=ann_observed, col="blue")
 ```
 
 ### Bus stops
-
 ```{r}
 busstops_mc <- spTransform(busstops_sp, crs(sg))
 ```
+
 ```{r}
 class(busstops_mc)
 coordinates(busstops_mc)
@@ -782,9 +838,10 @@ Run monte carlo simulation for 1000 epochs
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_busstops <- vector(length = n) # empty object to be used to store simulated ANN values
+inv_distances_busstops_im <- -distances_busstops_im + max(distances_busstops_im)
 
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_busstops_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_busstops_im)
   ann_distances_busstops[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -792,7 +849,14 @@ Window(random_point) <- sg_window
 plot(distances_busstops)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
+pval_dist_bus <- sum(ann_observed > ann_distances_busstops)
+mean_ann_dist_bus <- mean(ann_distances_busstops)
+sd_ann_dist_bus <- sd(ann_distances_busstops)
+print(paste('p-value for distances to bus stops:', pval_dist_bus))
+print(paste('mean for distances to bus stops:', mean_ann_dist_bus))
+print(paste('SD for distances to bus stops:', sd_ann_dist_bus))
 hist(ann_distances_busstops, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_busstops))
 abline(v=ann_observed, col="blue")
 ```
@@ -803,6 +867,7 @@ abline(v=ann_observed, col="blue")
 bike_racks_sp <- as_Spatial(bike_racks)
 bikeracks_mc <- spTransform(bike_racks_sp, crs(sg))
 ```
+
 ```{r}
 class(bikeracks_mc)
 coordinates(bikeracks_mc)[,1:2]
@@ -812,7 +877,7 @@ Get x and y coordinates from parks
 distances_bikeracks <- distanceFromPoints(object = r, xy=coordinates(bikeracks_mc)[,1:2])
 plot(distances_bikeracks)
 ```
-Mask the distances_parks raster with the shape of Singapore
+Mask the distances_bikeracks raster with the shape of Singapore
 ```{r}
 distances_bikeracks <- mask(distances_bikeracks, sg)
 plot(distances_bikeracks)
@@ -826,12 +891,14 @@ class(distances_bikeracks_im)
 ```
 
 Run monte carlo simulation for 1000 epochs
+
+##### Try inverting by flipping -> y = -x + a where a = max(xi)
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_bikeracks <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_bikeracks_im = -distances_bikeracks_im + max(distances_bikeracks_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_bikeracks_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_bikeracks_im)
   ann_distances_bikeracks[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -840,9 +907,60 @@ plot(distances_bikeracks)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
 ```{r}
+pval_dist_bikeracks <- sum(ann_observed > ann_distances_bikeracks)
+mean_dist_bikeracks <- mean(ann_distances_bikeracks)
+sd_dist_bikeracks <- sd(ann_distances_bikeracks)
+print(paste('p-value for distances to bike racks:', pval_dist_bikeracks))
+print(paste('mean ANN for distances to bike racks:', mean_dist_bikeracks))
+print(paste('SD of ANN for distances to bike racks:', sd_dist_bikeracks))
 hist(ann_distances_bikeracks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_bikeracks))
 abline(v=ann_observed, col="blue")
 ```
+
+##### Try inverting using e^(-x)
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks_e <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=exp(-distances_bikeracks_im))
+  ann_distances_bikeracks_e[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+##### Try inverting using 1.2^(-x)
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks_1p2 <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=1.2**(-distances_bikeracks_im))
+  ann_distances_bikeracks_1p2[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+##### Try inverting using reciprocal -> 1/x
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks_recip <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=1**(-distances_bikeracks_im))
+  ann_distances_bikeracks_recip[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+
+
 
 ## Zooming in on certain Regions - continue with Distance-based
 ### Filtering points per region
