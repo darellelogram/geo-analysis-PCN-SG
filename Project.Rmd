@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # Setting up
+
 ```{r pressure, echo=FALSE, warning=FALSE, error=FALSE}
 library(GISTools)
 library(tmap)
@@ -20,21 +21,27 @@ library(rgdal)
 library(spatstat)
 library(rgeos)
 ```
+
 ## Set seed
+
 ```{r}
 set.seed(42)
 ```
 
 ## Loading data
+
 ### Polygons and lines
+
 ```{r, warning=FALSE, error=FALSE}
 planning_area_sf <- st_read("data/town-councils/Planning_Area_Census2010.kml")
 sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg_combined <- gUnaryUnion(sg)
 ```
+
 ### Points
-Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves.
-Next, we have data on various public amenities like supermarkets, hawker centres, pharmacies as well as transportation infrastructure like MRT exits.
+
+Next we read in point data. The first set of point data is the Park Connector (PCN) access points themselves. Next, we have data on various public amenities like supermarkets, hawker centres, pharmacies as well as transportation infrastructure like MRT exits.
+
 ```{r}
 access_points_sf <- st_read("data/PCNs/PCN_Access_Points.kml")
 supermarkets_sf <- st_read("data/amenities/supermarkets/supermarkets.kml")
@@ -55,8 +62,11 @@ class(parks)
 class(busstops_sf)
 class(bike_racks)
 ```
+
 ### Raster
+
 Next, we read in raster data, which consists of only population density data.
+
 ```{r}
 GDALinfo("data/population-density/popmap15adj.tif")
 ```
@@ -67,8 +77,11 @@ pop_density
 ```
 
 # Exploratory Data Analysis
+
 ## Park Connectors
+
 First, we plot the PCN access points. On first glance, it is apparent that these points cannot be randomly distributed, with noticeable clusters in the Choa Chu Kang/Bukit Batok area as well as the Woodlands/Sembawang area. The points also seem to occur as a "string" of points, which obviously stands to reason since these are access points to Park Connectors which are essentially lines.
+
 ```{r}
 tmap_mode("plot")
 tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
@@ -76,16 +89,18 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_s
 tmap_mode("view")
 tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) + tm_shape(access_points_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red")+ tm_layout(title="PCN Access Points in Singapore", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 We also want to get a buffer of 500m around the PCN access points
+
 ```{r}
 access_points_500buf <- st_buffer(access_points_sf, dist = 500)
 access_points_500buf <- st_union(access_points_500buf)
 ```
+
 ## Plot various amenities over the PCN access points
-Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points.
-### Supermarkets
-We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets.
-#### Plot just the points
+
+Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points. \### Supermarkets We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets. \#### Plot just the points
+
 ```{r}
 tmap_mode("plot")
 
@@ -97,6 +112,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
 ```
 
 #### Plot the points with 500m buffer
+
 ```{r}
 # convert buffer from sfc to sf
 access_points_500buf_sf <- st_sf(access_points_500buf)
@@ -112,7 +128,9 @@ nearby_supermarkets_count <- poly.counts(supermarkets_sp, access_points_500buf_s
 # percentage of supermarkets within buffer
 nearby_supermarkets_count / 742 * 100
 ```
+
 #### reverse: get number of PCAPs within 500m of a supermarket
+
 ```{r}
 supermarkets_500buf <- st_buffer(supermarkets_sf, dist = 500)
 supermarkets_500buf <- st_union(supermarkets_500buf)
@@ -129,9 +147,10 @@ print(dim(access_points_sf)[1])
 print(PCAPs_near_supermarkets / dim(access_points_sf)[1])
 ```
 
-
 ### Hawker centres
+
 For hawker centres, the correlation is not as obvious.
+
 ```{r}
 tmap_mode("plot")
 
@@ -152,6 +171,7 @@ nearby_hawker_count / 125 * 100
 ```
 
 #### reverse - hawker centre buffers
+
 ```{r}
 hawkercentres_500buf <- st_buffer(hawkercentres_sf, dist = 500)
 hawkercentres_500buf <- st_union(hawkercentres_500buf)
@@ -169,8 +189,9 @@ print(PCAPs_near_hawkercentres / dim(access_points_sf)[1])
 ```
 
 ### MRT exits
-For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation.
-Unlike the MRT exits, we see that there are very few PCN access points in the Downtown Core area. This could be because of the lower priority assigned to cycling paths over mass rapid transit in a space-scarce area like the Downtown Core.
+
+For MRT exits, we notice that the Downtown Core area has a high concentration of exits. This could be because many of the stations in that area have many exits, sometimes as many as 7 or 8. This makes it seem more numerous. We can try getting a dataset of just MRT stations themselves to help us narrow down our investigation. Unlike the MRT exits, we see that there are very few PCN access points in the Downtown Core area. This could be because of the lower priority assigned to cycling paths over mass rapid transit in a space-scarce area like the Downtown Core.
+
 ```{r}
 tmap_mode("plot")
 
@@ -188,10 +209,11 @@ mrt_exits_sp <- as_Spatial(mrt_exits_sf)
 nearby_mrt_count <- poly.counts(mrt_exits_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_mrt_count / 474 * 100
+nearby_mrt_count / dim(mrt_exits_sf)[1] #474 * 100
 ```
 
 #### reverse - mrt exit buffers
+
 ```{r}
 mrt_exits_500buf <- st_buffer(mrt_exits_sf, dist = 500)
 mrt_exits_500buf <- st_union(mrt_exits_500buf)
@@ -209,7 +231,9 @@ print(PCAPs_near_mrt_exits / dim(access_points_sf)[1])
 ```
 
 ### Pharmacies
+
 For pharmacies, there doesn't seem to be a clear pattern.
+
 ```{r}
 tmap_mode("plot")
 
@@ -227,9 +251,11 @@ pharmacy_sp <- as_Spatial(pharmacy_sf)
 nearby_pharm_count <- poly.counts(pharmacy_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_pharm_count / 269 * 100
+nearby_pharm_count / dim(pharmacy_sf)[1] #269 * 100
 ```
+
 ### Bus stops
+
 ```{r}
 tmap_mode("plot")
 
@@ -250,9 +276,11 @@ access_points_500buf_sp
 nearby_busstops_count <- poly.counts(busstops_sp, access_points_500buf_sp)
 
 # percentage of supermarkets within buffer
-nearby_busstops_count / 5160 * 100
+nearby_busstops_count / dim(busstops_sf)[1] #5160 * 100
 ```
+
 #### reverse - bus stop buffers
+
 ```{r}
 busstops_500buf <- st_buffer(busstops_sf, dist = 500)
 busstops_500buf <- st_union(busstops_500buf)
@@ -261,6 +289,7 @@ busstops_500buf_sf <- st_sf(busstops_500buf)
 busstops_500buf_sp <- as_Spatial(busstops_500buf_sf)
 busstops_500buf_sp <- spTransform(busstops_500buf_sp, crs(access_points_sp))
 ```
+
 ```{r}
 
 # access_points_sp <- as_Spatial(access_points_sf)
@@ -272,7 +301,9 @@ print(PCAPs_near_busstops)
 print(dim(access_points_sf)[1])
 print(PCAPs_near_busstops / dim(access_points_sf)[1])
 ```
+
 #### DEBUG: try plotting
+
 ```{r}
 tmap_mode("plot")
 
@@ -284,6 +315,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
 ```
 
 ### Parks
+
 ```{r}
 tmap_mode("plot")
 
@@ -304,19 +336,23 @@ nearby_parks_count <- poly.counts(park_sp, access_points_500buf_sp)
 # percentage of supermarkets within buffer
 nearby_parks_count / 350 * 100
 ```
+
 ```{r}
 # reversed count
 parks_500buf <- st_buffer(parks, dist = 500)
 parks_500buf <- st_union(parks_500buf)
 parks_500buf_sp <- as_Spatial(parks_500buf)
 ```
+
 #### reverse - parks buffer
+
 ```{r}
 PCAPs_near_parks <- poly.counts(access_points_sp, parks_500buf_sp)
 print(PCAPs_near_parks / dim(access_points_sf)[1])
 ```
 
 ### Bicycle racks
+
 ```{r}
 tmap_mode("plot")
 
@@ -326,7 +362,9 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_shape(access_points_500buf) + tm_borders("brown") + 
   tm_layout(title="PCAPs and bicycle racks", title.size = 0.65, title.position = c(0.02, "bottom"))
 ```
+
 #### reverse - bicycle racks buffer
+
 ```{r}
 bikeracks_500buf <- st_buffer(bike_racks, dist = 500)
 bikeracks_500buf <- st_union(bikeracks_500buf)
@@ -343,12 +381,12 @@ PCAPs_near_bikeracks / 306 * 100
 print(PCAPs_near_bikeracks / dim(access_points_sf)[1])
 ```
 
-
-
 ### Population density
+
 Interestingly, areas with the highest population density (Serangoon, Hougang and the areas surrounding Paya Lebar) seem to be relatively underserved by acces points as compared to Western regions like Bukit Batok which has a much lower population density.
 
 Standing out as well is the central part of Singapore, which has virtually zero population density. This region encompasses the MacRitchie Reservoir area and naturally is not home to any human population density. It might be useful to exclude this region in later analysis to prevent confounding.
+
 ```{r}
 tmap_mode("plot")
 
@@ -359,13 +397,18 @@ tm_shape(pop_density, bbox=st_bbox(sg_combined)) + tm_raster(title="Population D
 ```
 
 # Spatial Analysis
+
 ## Global Density
+
 ### Extracting planning areas to observe
+
 ```{r, echo=FALSE, }
 training_sf <- planning_area_sf[planning_area_sf$Name %in% c("YISHUN","JURONG EAST", "JURONG WEST", "TAMPINES", "PASIR RIS", "BEDOK"),]
 # training_sf
 ```
+
 ### Calculating global density
+
 ```{r}
 sg_area <- 728.6 #km2
 supermarkets_gd <- dim(supermarkets_sf)[1] / sg_area
@@ -375,7 +418,9 @@ pharmacy_gd <- dim(pharmacy_sf)[1]/ sg_area
 ```
 
 ## Local Density
+
 ### Quadrat Density
+
 ```{r}
 sg <- readOGR("./data/town-councils", "Region_Census2010")
 sg
@@ -388,7 +433,9 @@ access_points_q <- st_transform(access_points_sf, crs(sg))
 # convert sf to ppp
 access_points_ppp <- as.ppp(st_coordinates(access_points_q), W=sg_window)
 ```
+
 Try plotting quadrats of various sizes.
+
 ```{r}
 Q6 <- quadratcount(access_points_ppp, nx=6, ny=6)
 plot(Q6)
@@ -401,7 +448,9 @@ Q20 <- quadratcount(access_points_ppp, nx=20, ny=20)
 Q40 <- quadratcount(access_points_ppp, nx=40, ny=40)
 plot(Q20)
 ```
+
 From the quadrat density graph, we again see that most access points are concentrated in the North and West.
+
 ```{r}
 # compute density within each quadrat
 Q_density <- intensity(Q40)
@@ -430,6 +479,7 @@ plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
 ### KDE functions
+
 ```{r}
 library(jsonlite)
 library(splitstackshape)
@@ -478,6 +528,7 @@ kde_display<-function(arr){
 ```
 
 #### Plotting KDEs for ESDA
+
 ```{r}
 kde_sf_data(access_points_sf)
 ```
@@ -485,19 +536,22 @@ kde_sf_data(access_points_sf)
 ```{r}
 kde_sf_data(supermarkets_sf)
 ```
+
 ```{r}
 kde_sf_data(hawkercentres_sf)
 ```
+
 ```{r}
 kde_sf_data(pharmacy_sf)
 ```
+
 ```{r}
 amenities_list<-c("data\\amenities\\others\\exercisefacilities.json","data\\amenities\\others\\libraries.json","data\\amenities\\others\\preschools_location.json","data\\amenities\\others\\communityclubs.json")
 kde_jsonlist_data(amenities_list)
 ```
 
-
 #### Quadrat density - based on population density
+
 ```{r}
 pop_density_q <- projectRaster(pop_density, crs = crs(sg))
 
@@ -527,13 +581,17 @@ plot(access_points_ppp, pch=20, cex=0.6, col=rgb(0,0,0,.5), add=TRUE)
 ```
 
 ## Density-based Analysis (Monte Carlo)
+
 ### get baseline ANN value
+
 ```{r}
 ann_observed <- mean(nndist(access_points_ppp, k=1))
 ann_observed
 ann_observed_k2 <- mean(nndist(access_points_ppp, k=2))
 ```
+
 ### Population density
+
 ```{r}
 n <- 1000 # number of simulations
 ann_pop <- vector(length = n) # empty object to be used to store simulated ANN values
@@ -546,6 +604,20 @@ for (i in 1:n) {
 
 Window(random_point) <- sg_window
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+
+#### generate 6 random plots
+
+```{r}
+n <- 6 # number of simulations
+pop_density_im <- as.im(pop_density_q) # convert population density to im object
+Window(random_point) <- sg_window
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=pop_density_im)
+  plot(random_point)
+}
+
 ```
 
 ```{r}
@@ -561,6 +633,7 @@ abline(v=ann_observed, col="blue")
 ```
 
 ### MRT exits
+
 ```{r}
 # convert crs of access_points_sf to crs of sg
 mrt_exits_q <- st_transform(mrt_exits_sf, crs(sg))
@@ -601,52 +674,107 @@ hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed
 abline(v=ann_observed, col="blue")
 ```
 
+### Bus stops
 
+```{r}
+# convert crs of access_points_sf to crs of sg
+busstops_q <- st_transform(busstops_sf, crs(sg))
+# convert sf to ppp
+busstops_ppp <- as.ppp(st_coordinates(busstops_q), W=sg_window)
 
-## Distance-based Analysis  (Monte Carlo)
+busstop_Qpop0 <- quadratcount(busstops_ppp, nx=20, ny=20)
+plot(busstop_Qpop0)
+```
+
+```{r}
+busstop_density20 <- intensity(busstop_Qpop0, image=TRUE)
+plot(busstop_density20)
+class(busstop_density20)
+```
+
+```{r}
+n <- 1000 # number of simulations
+ann_busstop <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=busstop_density20)
+  ann_busstop[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+```
+
+```{r}
+pval_mrt = sum(ann_observed > ann_busstop)
+mean_ann_busstop <- mean(ann_busstop)
+sd_ann_busstop <- sd(ann_busstop)
+print(paste('p-value for bus stops:', pval_mrt))
+print(paste('mean ANN on bus stop density:', mean_ann_busstop))
+print(paste('SD of ANN distance on bus stop density:', sd_ann_busstop))
+hist(ann_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_busstop))
+abline(v=ann_observed, col="blue")
+```
+
+## Distance-based Analysis (Monte Carlo)
+
 ### MRT Exits
+
 First, we want to find the extent of sg
+
 ```{r}
 sg
 ```
+
 Create a raster using the extent of Singapore
+
 ```{r}
 # r <- raster(ncol=1000, nrow=1000, xmn= 2637.869, xmx=56396.44, ymn=15748.72, ymx=50256.33)
 r <- raster(ncol=1000, nrow=1000, xmn= sg@bbox['x','min'], xmx=sg@bbox['x','max'], ymn=sg@bbox['y','min'], ymx=sg@bbox['y','max'])
 ```
+
 Convert MRT exits with the same CRS as sg to an sp object
+
 ```{r}
 mrt_exits_q_sp <- as(mrt_exits_q, "Spatial")
 class(mrt_exits_q_sp)
 ```
+
 Get x and y coordinates from MRT exits
+
 ```{r}
 distances_mrt <- distanceFromPoints(object = r, xy=coordinates(mrt_exits_q_sp)[,1:2])
 plot(distances_mrt)
 ```
+
 ```{r}
 coordinates(mrt_exits_q_sp)[,1:2]
 ```
 
 Mask the distances_mrt raster with the shape of Singapore
+
 ```{r}
 distances_mrt <- mask(distances_mrt, sg)
 plot(distances_mrt)
 plot(access_points_ppp, add = TRUE)
 ```
+
 Convert distances_mrt from raster to im
+
 ```{r}
 class(distances_mrt)
 distances_mrt_im <- as.im(distances_mrt)
 class(distances_mrt_im)
 ```
+
 Run monte carlo simulation for 1000 epochs
+
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_mrt_im = -distances_mrt_im + max(distances_mrt_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=(distances_mrt_im))
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_mrt_im)
   ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -666,7 +794,9 @@ print(paste('SD of ANN on distance to MRT exits:', sd_ann_dist_mrt))
 hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
 abline(v=ann_observed, col="blue")
 ```
+
 #### Try with k=2
+
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_mrt2 <- vector(length = n) # empty object to be used to store simulated ANN values
@@ -692,9 +822,11 @@ print(pval_dist_mrt2)
 hist(ann_distances_mrt2, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed_k2, ann_distances_mrt2))
 abline(v=ann_observed_k2, col="blue")
 ```
+
 Even less significant when taking the two nearest neighbours for mrt exits.
 
 ### Parks
+
 ```{r}
 parks2 <- st_transform(parks, crs(sg))
 ```
@@ -703,22 +835,28 @@ parks2 <- st_transform(parks, crs(sg))
 parks_sp <- as(parks2, "Spatial")
 class(parks_sp)
 ```
+
 ```{r}
 coordinates(parks_sp)[,1:2]
 ```
 
 Get x and y coordinates from parks
+
 ```{r}
 distances_parks <- distanceFromPoints(object = r, xy=coordinates(parks_sp)[,1:2])
 plot(distances_parks)
 ```
+
 Mask the distances_parks raster with the shape of Singapore
+
 ```{r}
 distances_parks <- mask(distances_parks, sg)
 plot(distances_parks)
 plot(access_points_ppp, add = TRUE)
 ```
+
 Convert distances_parks from raster to im
+
 ```{r}
 class(distances_parks)
 distances_parks_im <- as.im(distances_parks)
@@ -726,12 +864,13 @@ class(distances_parks)
 ```
 
 Run Monte Carlo simulation for 1000 epochs
+
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_parks <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_parks_im = -distances_parks_im + max(distances_parks_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_parks_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_parks_im)
   ann_distances_parks[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -756,22 +895,29 @@ abline(v=ann_observed, col="blue")
 ```{r}
 busstops_mc <- spTransform(busstops_sp, crs(sg))
 ```
+
 ```{r}
 class(busstops_mc)
 coordinates(busstops_mc)
 ```
+
 Get x and y coordinates from parks
+
 ```{r}
 distances_busstops <- distanceFromPoints(object = r, xy=coordinates(busstops_mc))
 plot(distances_busstops)
 ```
+
 Mask the distances_parks raster with the shape of Singapore
+
 ```{r}
 distances_busstops <- mask(distances_busstops, sg)
 plot(distances_parks)
 plot(access_points_ppp, add = TRUE)
 ```
+
 Convert distances_parks from raster to im
+
 ```{r}
 class(distances_busstops)
 distances_busstops_im <- as.im(distances_busstops)
@@ -779,13 +925,15 @@ class(distances_busstops_im)
 ```
 
 Run monte carlo simulation for 1000 epochs
+
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_busstops <- vector(length = n) # empty object to be used to store simulated ANN values
+inv_distances_busstops_im <- -distances_busstops_im + max(distances_busstops_im)
 
 for (i in 1:n) {
   random_point <- list()
-  random_point <- rpoint(n=access_points_ppp$n, f=(-distances_busstops_im + max(distances_busstops_im)))
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_busstops_im)
   ann_distances_busstops[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -793,7 +941,14 @@ Window(random_point) <- sg_window
 plot(distances_busstops)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
+pval_dist_bus <- sum(ann_observed > ann_distances_busstops)
+mean_ann_dist_bus <- mean(ann_distances_busstops)
+sd_ann_dist_bus <- sd(ann_distances_busstops)
+print(paste('p-value for distances to bus stops:', pval_dist_bus))
+print(paste('mean for distances to bus stops:', mean_ann_dist_bus))
+print(paste('SD for distances to bus stops:', sd_ann_dist_bus))
 hist(ann_distances_busstops, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_busstops))
 abline(v=ann_observed, col="blue")
 ```
@@ -804,22 +959,29 @@ abline(v=ann_observed, col="blue")
 bike_racks_sp <- as_Spatial(bike_racks)
 bikeracks_mc <- spTransform(bike_racks_sp, crs(sg))
 ```
+
 ```{r}
 class(bikeracks_mc)
 coordinates(bikeracks_mc)[,1:2]
 ```
+
 Get x and y coordinates from parks
+
 ```{r}
 distances_bikeracks <- distanceFromPoints(object = r, xy=coordinates(bikeracks_mc)[,1:2])
 plot(distances_bikeracks)
 ```
-Mask the distances_parks raster with the shape of Singapore
+
+Mask the distances_bikeracks raster with the shape of Singapore
+
 ```{r}
 distances_bikeracks <- mask(distances_bikeracks, sg)
 plot(distances_bikeracks)
 plot(access_points_ppp, add = TRUE)
 ```
+
 Convert distances_parks from raster to im
+
 ```{r}
 class(distances_bikeracks)
 distances_bikeracks_im <- as.im(distances_bikeracks)
@@ -827,12 +989,15 @@ class(distances_bikeracks_im)
 ```
 
 Run monte carlo simulation for 1000 epochs
+
+##### Try inverting by flipping -\> y = -x + a where a = max(xi)
+
 ```{r}
 n <- 1000 # number of simulations
 ann_distances_bikeracks <- vector(length = n) # empty object to be used to store simulated ANN values
-
+inv_distances_bikeracks_im = -distances_bikeracks_im + max(distances_bikeracks_im)
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=distances_bikeracks_im)
+  random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_bikeracks_im)
   ann_distances_bikeracks[i] <- mean(nndist(random_point, k=1))
 }
 
@@ -840,134 +1005,82 @@ Window(random_point) <- sg_window
 plot(distances_bikeracks)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
+
 ```{r}
+pval_dist_bikeracks <- sum(ann_observed > ann_distances_bikeracks)
+mean_dist_bikeracks <- mean(ann_distances_bikeracks)
+sd_dist_bikeracks <- sd(ann_distances_bikeracks)
+print(paste('p-value for distances to bike racks:', pval_dist_bikeracks))
+print(paste('mean ANN for distances to bike racks:', mean_dist_bikeracks))
+print(paste('SD of ANN for distances to bike racks:', sd_dist_bikeracks))
 hist(ann_distances_bikeracks, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_bikeracks))
 abline(v=ann_observed, col="blue")
 ```
 
-## Zooming in on certain Regions - continue with Distance-based
-### Filtering points per region
-```{r}
-library(sf)
-library(tmap)
-
-sf_use_s2(FALSE)
-regional_sf <- planning_area_sf[planning_area_sf$Name %in% c("JURONG WEST"),]
-mrt_regional_sf<-st_filter(mrt_exits_sf,regional_sf)
-ap_regional_sf<-st_filter(access_points_sf,regional_sf)
-
-plot(regional_sf)
-tmap_mode("plot")
-
-tm_shape(regional_sf) + tm_borders() + tm_add_legend(type="symbol", labels=c("PCAPs"), col='red') +
-  tm_shape(access_points_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "red") + tm_add_legend(type="symbol", labels=c("Access Points"), col='red') + 
-  tm_shape(mrt_exits_filtered_sf) + tm_symbols(size = 0.1, alpha = 0.5, col = "navyblue") + tm_add_legend(type="symbol", labels=c("MRT exits"), col='navyblue') +
-  tm_layout(title="PCAPs and MRT exits", title.size = 0.65, title.position = c(0.02, "bottom"))
-
-```
+##### Try inverting using e\^(-x)
 
 ```{r}
-regional_st<-st_transform(regional_sf,crs(regional_sf))
-regional_sf <- st_transform(regional_sf, crs = 6345)
-regional_sp <- as_Spatial(st_zm(regional_sf))
-regional_window <- as.owin(regional_sp)
-
-ap_regional_q <- st_transform(ap_regional_sf, crs(regional_sp))
-ap_regional_ppp <- as.ppp(st_coordinates(ap_regional_q), W=regional_window)
-
-ap_regional_Q20 <- quadratcount(ap_regional_ppp, nx=20, ny=20)
-ap_regional_distribution <- intensity(ap_regional_Q20, image=TRUE)
-
-mrt_regional_q <- st_transform(mrt_regional_sf, crs(regional_sp))
-mrt_regional_ppp <- as.ppp(st_coordinates(mrt_regional_q), W=regional_window)
-
-mrt_regional_Q20 <- quadratcount(mrt_regional_ppp, nx=20, ny=20)
-mrt_regional_distribution <- intensity(mrt_regional_Q20, image=TRUE)
-
-ann_observed <- mean(nndist(ap_regional_ppp, k=1))
-ann_observed
-
 n <- 1000 # number of simulations
-ann_mrt_density <- vector(length = n) # empty object to be used to store simulated ANN values
-for (i in 1:n) {
-  random_point <- rpoint(n = ap_regional_ppp$n, f = mrt_regional_distribution)
-  ann_mrt_density[i] <- mean(nndist(random_point, k=1))
-}
-
-Window(random_point) <- regional_window
-plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
-
-hist(ann_mrt_density, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_mrt_density))
-abline(v=ann_observed, col="blue")
-```
-
-
-
-```{r}
-
-ap_regional_q <- st_transform(ap_regional_sf, crs(regional_sp))
-ap_regional_ppp <- as.ppp(st_coordinates(ap_regional_q), W=regional_window)
-
-mrt_regional_q <- st_transform(mrt_regional_sf, crs(regional_sp))
-mrt_regional_ppp <- as.ppp(st_coordinates(mrt_regional_q), W=regional_window)
-
-mrt_regional_Q20 <- quadratcount(mrt_regional_ppp, nx=20, ny=20)
-mrt_regional_distribution <- intensity(mrt_regional_Q20, image=TRUE)
-
-plot(mrt_regional_distribution)
-
-
-r <- raster(ncol=1000, nrow=1000, xmn= -700525, xmx=-694504.7, ymn= 19842439, ymx=19847018.0)
-
-#Convert MRT exits with the same CRS as sg to an sp object
-mrt_regional_q_sp <- as(mrt_regional_q, "Spatial")
-
-#Get x and y coordinates from MRT exits
-mrt_regional_distances <- distanceFromPoints(object = r, xy=coordinates(mrt_regional_q_sp)[,1:2])
-plot(mrt_regional_distances)
-
-#Mask the distances_mrt raster with the shape of Singapore
-mrt_regional_distances <- mask(mrt_regional_distances, regional_sp)
-plot(mrt_regional_distances)
-plot(ap_regional_ppp, add = TRUE)
-#Convert distances_mrt from raster to im
-
-mrt_regional_distances_distribution <- as.im(mrt_regional_distances)
-plot(mrt_regional_distances_distribution)
-
-#Run monte carlo simulation for 1000 epochs
-n <- 1000 # number of simulations
-ann_distances_mrt <- vector(length = n) # empty object to be used to store simulated ANN values
+ann_distances_bikeracks_e <- vector(length = n) # empty object to be used to store simulated ANN values
 
 for (i in 1:n) {
-  random_point <- rpoint(n=access_points_ppp$n, f=mrt_regional_distances_distribution)
-  ann_distances_mrt[i] <- mean(nndist(random_point, k=1))
+  random_point <- rpoint(n=access_points_ppp$n, f=exp(-distances_bikeracks_im))
+  ann_distances_bikeracks_e[i] <- mean(nndist(random_point, k=1))
 }
 
-Window(random_point) <- regional_window
-plot(random_point)
-
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
 plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
 
-hist(ann_distances_mrt, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_distances_mrt))
-abline(v=ann_observed, col="blue")
+##### Try inverting using 1.2\^(-x)
+
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks_1p2 <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=1.2**(-distances_bikeracks_im))
+  ann_distances_bikeracks_1p2[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
+```
+
+##### Try inverting using reciprocal -\> 1/x
+
+```{r}
+n <- 1000 # number of simulations
+ann_distances_bikeracks_recip <- vector(length = n) # empty object to be used to store simulated ANN values
+
+for (i in 1:n) {
+  random_point <- rpoint(n=access_points_ppp$n, f=1**(-distances_bikeracks_im))
+  ann_distances_bikeracks_recip[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- sg_window
+plot(distances_bikeracks)
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5), add=TRUE)
 ```
 
 # Insights
+
 ```{r}
 pcn_loops <- st_read("data/park-connector-loop/park-connector-loop.kml")
 unique(pcn_loops$Name)
 ```
+
 ```{r}
 
 ```
-
-
 
 ```{r}
 access_pts <- st_read("data/PCNs/PCN_Access_Points.geojson")
 unique(access_pts$name)
 ```
+
 ```{r}
 northern_explorer_loop <- access_pts[access_pts$name %in% c("Marsiling Park Connector", "Woodlands Park Connector", "Mandai Park Connector", "Khatib Bongsu Park Connector", "Yishun Park Connector", "Canberra-Sembawang Park Connector", "Admiralty West Park Connector", "Springleaf Park Connector", "Central Catchment Park Connector", "Canberra Park Connector", "Ulu Sembawang Park Connector", "Simpang Kiri Park Connector"),]
 
@@ -1090,11 +1203,118 @@ for (loop in loop_buffers) {
 
 
 
+## Zooming in on certain Regions - continue with Distance-based
 
+##Regional analysis
 
+```{r}
+sf_use_s2(FALSE)
+regional_sf <- planning_area_sf[planning_area_sf$Name %in% c("JURONG WEST"),]
+ap_regional_sf<-st_filter(access_points_sf,regional_sf)
+mrt_regional_sf<-st_filter(mrt_exits_sf,regional_sf)
+bikeracks_regional_sf<-st_filter(bike_racks,regional_sf)
+parks_regional_sf<-st_filter(parks,regional_sf)
 
+regional_st<-st_transform(regional_sf,crs(regional_sf))
+regional_sf <- st_transform(regional_sf, crs = 6345)
+regional_sp <- as_Spatial(st_zm(regional_sf))
+regional_window <- as.owin(regional_sp)
 
+plot(mrt_regional_sf)
+plot(parks_regional_sf)
+plot(bikeracks_regional_sf)
 
+amenity_regional_sf<-parks_regional_sf
 
+```
+
+##Regional Access Points data
+
+```{r}
+ap_regional_q <- st_transform(ap_regional_sf, crs(regional_sp))
+ap_regional_ppp <- as.ppp(st_coordinates(ap_regional_q), W=regional_window)
+
+ap_regional_Q20 <- quadratcount(ap_regional_ppp, nx=20, ny=20)
+ap_regional_distribution <- intensity(ap_regional_Q20, image=TRUE)
+
+ann_observed <- mean(nndist(ap_regional_ppp, k=1))
+ann_observed
+```
+
+##Regional Amenity Density-based Monte Carlo
+
+```{r}
+amenity_regional_q <- st_transform(amenity_regional_sf, crs(regional_sp))
+amenity_regional_ppp <- as.ppp(st_coordinates(amenity_regional_q), W=regional_window)
+
+amenity_regional_Q20 <- quadratcount(amenity_regional_ppp, nx=20, ny=20)
+amenity_regional_distribution <- intensity(amenity_regional_Q20, image=TRUE)
+
+n <- 1000 # number of simulations
+ann_amenity_density <- vector(length = n) # empty object to be used to store simulated ANN values
+for (i in 1:n) {
+  random_point <- rpoint(n = ap_regional_ppp$n, f = amenity_regional_distribution)
+  ann_amenity_density[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- regional_window
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+
+hist(ann_amenity_density, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_amenity_density))
+abline(v=ann_observed, col="blue")
+
+pval_dens_amenity <- sum(ann_observed > ann_amenity_density)/n
+mean_dens_amenity <- mean(ann_amenity_density)
+sd_dens_amenity <- sd(ann_amenity_density)
+print(paste('p-value for distances to amenity:', pval_dens_amenity))
+print(paste('mean ANN for distances to amenity:', mean_dens_amenity))
+print(paste('SD of ANN for distances to amenity:', sd_dens_amenity))
+
+```
+
+##Regional Amenity Distance-based Monte Carlo
+
+```{r}
+r <- raster(ncol=1000, nrow=1000, xmn= -700525, xmx= -694504.7, ymn= 19842439, ymx=19847018.0)
+
+#Convert MRT exits with the same CRS as sg to an sp object
+amenity_regional_q_sp <- as(amenity_regional_q, "Spatial")
+
+#Get x and y coordinates from MRT exits
+amenity_regional_distances <- distanceFromPoints(object = r, xy=coordinates(amenity_regional_q_sp)[,1:2])
+plot(amenity_regional_distances)
+
+#Mask the distances_mrt raster with the shape of Singapore
+amenity_regional_distances <- mask(amenity_regional_distances, regional_sp)
+
+#Convert distances_mrt from raster to im
+amenity_regional_distances_distribution <- as.im(amenity_regional_distances)
+inv_amenity_regional_distances_distribution = -amenity_regional_distances_distribution + max(amenity_regional_distances_distribution)
+
+#Run monte carlo simulation for 1000 epochs
+n <- 1000 # number of simulations
+ann_amenity_distances <- vector(length = n) # empty object to be used to store simulated ANN values
+
+random_point <-list()
+for (i in 1:n) {
+  random_point <-list()
+  random_point <- rpoint(n=ap_regional_ppp$n, f=inv_amenity_regional_distances_distribution)
+  ann_amenity_distances[i] <- mean(nndist(random_point, k=1))
+}
+
+Window(random_point) <- regional_window
+
+plot(random_point, pch=16, main=NULL, cols=rgb(0,0,0,0.5))
+
+hist(ann_amenity_distances, main=NULL, las=1, breaks=40, col="bisque", xlim=range(ann_observed, ann_amenity_distances))
+abline(v=ann_observed, col="blue")
+
+pval_dist_amenity <- sum(ann_observed > ann_amenity_distances)/n
+mean_dist_amenity <- mean(ann_amenity_distances)
+sd_dist_amenity <- sd(ann_amenity_distances)
+print(paste('p-value for distances to amenity:', pval_dist_amenity))
+print(paste('mean ANN for distances to amenity:', mean_dist_amenity))
+print(paste('SD of ANN for distances to amenity:', sd_dist_amenity))
+```
 
 
