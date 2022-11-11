@@ -915,6 +915,7 @@ ann_distances_busstops <- vector(length = n) # empty object to be used to store 
 inv_distances_busstops_im <- -distances_busstops_im + max(distances_busstops_im)
 
 for (i in 1:n) {
+  random_point <- list()
   random_point <- rpoint(n=access_points_ppp$n, f=inv_distances_busstops_im)
   ann_distances_busstops[i] <- mean(nndist(random_point, k=1))
 }
@@ -1064,18 +1065,126 @@ unique(access_pts$name)
 ```
 
 ```{r}
-northern_explorer_loop <- access_pts[access_pts$name %in% c("Marsiling Park Connector", "Woodlands Park Connector", "Mandai Park Connector", "Khatib Bongsu Park Connector", "Yishun Park Connector", "Canberra-Sembawang Park Connector", "Admiralty West Park Connector", "Springleaf Park Connector"),]
+northern_explorer_loop <- access_pts[access_pts$name %in% c("Marsiling Park Connector", "Woodlands Park Connector", "Mandai Park Connector", "Khatib Bongsu Park Connector", "Yishun Park Connector", "Canberra-Sembawang Park Connector", "Admiralty West Park Connector", "Springleaf Park Connector", "Central Catchment Park Connector", "Canberra Park Connector", "Ulu Sembawang Park Connector", "Simpang Kiri Park Connector"),]
 
-eastern_coastal_loop <- access_pts[access_pts$name %in% c("Bedok Park Connector", "Geylang Park Connector", "Tampines Park Connector", "Pasir Ris Park Connector", "Loyang Park Connector", "Coastal Park Connector", "Tampines-Loyang Park Connector", "Siglap Park Connector", ),]
+eastern_coastal_loop <- access_pts[access_pts$name %in% c("Bedok Park Connector", "Geylang Park Connector", "Tampines Park Connector", "Pasir Ris Park Connector", "Loyang Park Connector", "Coastal Park Connector", "Tampines-Loyang Park Connector", "Siglap Park Connector"),]
 
-central_urban_loop <- access_pts[access_pts$name %in% c("Ang Mo Kio Avenue 5 Park Connector", "Kallang Park Connector", "Serangoon Park Connector", "Jalan Pelikat Park Connector", "Whampoa Park Connector", "Ang Mo Kio Park Connector", "Pelton Canal Park Connector"),]
+central_urban_loop <- access_pts[access_pts$name %in% c("Ang Mo Kio Avenue 5 Park Connector", "Kallang Park Connector", "Serangoon Park Connector", "Jalan Pelikat Park Connector", "Whampoa Park Connector", "Ang Mo Kio Park Connector", "Pelton Canal Park Connector", "Paya Lebar Park Connector", "Buangkok Park Connector", "Balam Park Connector"),]
   
-north_eastern_riverine_loop <- access_pts[access_pts$name %in% c(),]
+north_eastern_riverine_loop <- access_pts[access_pts$name %in% c("Punggol Promenade Riverside Walk", "Sungei Serangoon Park Connector", "Punggol Promenade Punggol Point Walk", "Punggol Promenade Nature Walk"),]
 
-south_ridges_loop <- access_pts[access_pts$name %in% c("Alexandra Park Connector", "Ulu Pandan Park Connector", "Pandan Gardens Park Connector", "West Coast Park Connector", "Alexandra Garden Trail"),]
+south_ridges_loop <- access_pts[access_pts$name %in% c("Alexandra Park Connector", "Ulu Pandan Park Connector", "Pandan Gardens Park Connector", "West Coast Park Connector", "Alexandra Garden Trail", "Alexandra Canal Linear Park", "Henderson Park Connector"),]
 
-western_adventure_loop <- access_pts[access_pts$name %in% c("Jurong Park Connector", "Jurong West Park Connector", "Choa Chu Kang North Park Connector", "Choa Chu Kang Park Connector", "Bukit Batok Park Connector", "Bukit Batok West Park Connector", "Hillview Park Connector", "Bukit Timah Park Connector"),]
+western_adventure_loop <- access_pts[access_pts$name %in% c("Jurong Park Connector", "Jurong West Park Connector", "Choa Chu Kang North Park Connector", "Choa Chu Kang Park Connector", "Bukit Batok Park Connector", "Bukit Batok West Park Connector", "Hillview Park Connector", "Bukit Timah Park Connector", "Simei Park Connector", "Tanjong Rhu Promenade", "Bukit Panjang Park Connector", "Bukit Batok East Park Connector"),]
 ```
+## Create buffers
+```{r}
+northern_explorer_loop_500buf <- st_buffer(northern_explorer_loop, dist = 500)
+northern_explorer_loop_500buf <- st_union(northern_explorer_loop_500buf)
+
+eastern_coastal_loop_500buf <- st_buffer(eastern_coastal_loop, dist = 500)
+eastern_coastal_loop_500buf <- st_union(eastern_coastal_loop_500buf)
+
+central_urban_loop_500buf <- st_buffer(central_urban_loop, dist = 500)
+central_urban_loop_500buf <- st_union(central_urban_loop_500buf)
+
+north_eastern_riverine_loop_500buf <- st_buffer(north_eastern_riverine_loop, dist = 500)
+north_eastern_riverine_loop_500buf <- st_union(north_eastern_riverine_loop_500buf)
+
+south_ridges_loop_500buf <- st_buffer(south_ridges_loop, dist = 500)
+south_ridges_loop_500buf <- st_union(south_ridges_loop_500buf)
+
+western_adventure_loop_500buf <- st_buffer(western_adventure_loop, dist = 500)
+western_adventure_loop_500buf <- st_union(western_adventure_loop_500buf)
+```
+```{r}
+loop_buffers <- list(northern_explorer_loop_500buf, eastern_coastal_loop_500buf, central_urban_loop_500buf, north_eastern_riverine_loop_500buf, south_ridges_loop_500buf, western_adventure_loop_500buf)
+
+loop_pts <- list(northern_explorer_loop, eastern_coastal_loop, central_urban_loop, north_eastern_riverine_loop, south_ridges_loop, western_adventure_loop)
+```
+
+```{r}
+dim(loop_pts[1][[1]])[1]
+```
+
+```{r}
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  print(class(loop))
+}
+```
+
+## Count MRT intersection
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(as_Spatial(mrt_exits_sf), loop)
+  print(count)
+  print(count / n)
+  i = i + 1
+}
+```
+
+## Count bus stop intersection
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(spTransform(as_Spatial(busstops_sf), crs(loop)), loop)
+  print(count / n)
+  print(n)
+  i = i + 1
+}
+```
+## Count bike racks intersection
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(as_Spatial(bike_racks), loop)
+  print(count / n)
+  i = i + 1
+}
+```
+## Count parks intersection
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(as_Spatial(parks), loop)
+  print(count / n)
+  i = i + 1
+}
+```
+## Supermarkets
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(as_Spatial(supermarkets_sf), loop)
+  print(count / n)
+  i = i + 1
+}
+```
+## Hawker centres
+```{r}
+i = 1
+for (loop in loop_buffers) {
+  loop <- as_Spatial(loop)
+  n <- dim(loop_pts[i][[1]])[1]
+  count <- poly.counts(as_Spatial(hawkercentres_sf), loop)
+  print(count / n)
+  i = i + 1
+}
+```
+
+
 
 ## Zooming in on certain Regions - continue with Distance-based
 
