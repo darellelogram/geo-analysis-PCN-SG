@@ -99,8 +99,10 @@ access_points_500buf <- st_union(access_points_500buf)
 
 ## Plot various amenities over the PCN access points
 
-Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points. \### Supermarkets We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets. \#### Plot just the points
-
+Now, we will display the geographical distribution of the various amenities (supermarkets, hawker centres, etc.) on top of the locations of the PCN access points. 
+### Supermarkets 
+We plot the locations of supermarkets overlaid with the access points on a map of Singapore. We see that most access points are located very close to supermarkets. 
+#### Plot just the points
 ```{r}
 tmap_mode("plot")
 
@@ -111,26 +113,7 @@ tm_shape(sg_combined) + tm_borders() + tmap_options(check.and.fix = TRUE) +
   tm_layout(title="PCAPs and supermarkets", title.size = 0.65, title.position = c(0.02, "bottom"), legend.show=TRUE, legend.outside=FALSE, legend.text.size=0.7) 
 ```
 
-#### Plot the points with 500m buffer
-
-```{r}
-# convert buffer from sfc to sf
-access_points_500buf_sf <- st_sf(access_points_500buf)
-# convert buffer and point to sp
-access_points_500buf_sp <- as_Spatial(access_points_500buf_sf)
-supermarkets_sp <- as_Spatial(supermarkets_sf)
-
-# count number of supermarkets within buffer
-nearby_supermarkets_count <- poly.counts(supermarkets_sp, access_points_500buf_sp)
-```
-
-```{r}
-# percentage of supermarkets within buffer
-nearby_supermarkets_count / 742 * 100
-```
-
-#### reverse: get number of PCAPs within 500m of a supermarket
-
+#### calculate % of PCAPs within 500m of a supermarket
 ```{r}
 supermarkets_500buf <- st_buffer(supermarkets_sf, dist = 500)
 supermarkets_500buf <- st_union(supermarkets_500buf)
